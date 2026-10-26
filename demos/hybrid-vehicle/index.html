@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hybrid Vehicle Controller 2 – Play the Web Demo | RageRun Games</title>
+<link rel="icon" href="../../favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32.png">
+<link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+<meta name="description" content="Play the Hybrid Vehicle Controller 2 demo in your browser: drive a real-physics car, fold its wheels into fans and fly it like a drone through a canyon stunt park with AI racers. A Unity asset by RageRun Games.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #0e1322; --panel: #141a2e; --line: #26304d; --ink: #f4f1ea; --muted: #a3abc2; --orange: #f2622e; --orange-ink: #d94e1c; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); font-family: Inter, system-ui, sans-serif; }
+  a { color: inherit; }
+  header { display: flex; align-items: center; gap: 12px; justify-content: space-between; flex-wrap: wrap; padding: 14px 16px; max-width: 1312px; margin: 0 auto; }
+  .back { text-decoration: none; color: var(--muted); font-weight: 600; font-size: 14px; }
+  .back:hover { color: var(--ink); }
+  h1 { font-size: 20px; margin: 0; font-weight: 800; }
+  h1 span { color: var(--orange); }
+  .buy { text-decoration: none; background: var(--orange); color: #fff; font-weight: 800; font-size: 14px; padding: 9px 14px; border-radius: 10px; }
+  .buy:hover { background: var(--orange-ink); }
+  main { max-width: 1312px; margin: 0 auto; padding: 0 16px 24px; }
+  .stage { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+  canvas { display: block; width: 100%; height: 100%; outline: none; }
+  .loading { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; background: var(--panel); }
+  .loading b { font-size: 18px; }
+  .bar { width: min(360px, 70%); height: 10px; border-radius: 6px; background: var(--line); overflow: hidden; }
+  .bar i { display: block; height: 100%; width: 0; background: var(--orange); transition: width .2s; }
+  .loading small { color: var(--muted); }
+  .error { position: absolute; left: 12px; right: 12px; top: 12px; background: #b3261e; color: #fff; padding: 10px 12px; border-radius: 10px; font-size: 14px; display: none; }
+  .bar-under { display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-top: 12px; }
+  .keys { display: flex; gap: 8px 16px; flex-wrap: wrap; color: var(--muted); font-size: 14px; }
+  kbd { font-family: inherit; font-size: 12px; font-weight: 600; color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 6px; padding: 2px 6px; }
+  button { font: inherit; font-weight: 700; font-size: 14px; color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; cursor: pointer; }
+  button:hover { border-color: var(--ink); }
+  .note { color: var(--muted); font-size: 13px; margin-top: 10px; }
+  .mobile-note { display: none; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font-size: 14px; margin-bottom: 12px; }
+</style>
+</head>
+<body>
+<header>
+  <a class="back" href="https://ragerungames.github.io/">← RageRun Games</a>
+  <h1>Hybrid Vehicle Controller 2 <span>web demo</span></h1>
+  <a class="buy" href="https://assetstore.unity.com/packages/templates/packs/hybrid-vehicle-controller-2-flying-car-drone-stunts-ai-418642?aid=1101l3IyVT" target="_blank" rel="noopener sponsored">Get it on the Asset Store</a>
+</header>
+<main>
+  <div class="mobile-note" id="mobile-note">This demo is made for a keyboard and mouse. It's best on a desktop or laptop.</div>
+  <div class="stage">
+    <canvas id="unity-canvas" tabindex="-1"></canvas>
+    <div class="loading" id="loading">
+      <b>Folding the wheels into fans…</b>
+      <div class="bar"><i id="bar"></i></div>
+      <small id="pct">0%</small>
+    </div>
+    <div class="error" id="error"></div>
+  </div>
+  <div class="bar-under">
+    <div class="keys">
+      <span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> drive / fly</span>
+      <span><kbd>T</kbd> take off / land</span>
+      <span><kbd>Space</kbd> handbrake / climb</span>
+      <span><kbd>Shift</kbd> boost / descend</span>
+      <span><kbd>J</kbd> jump</span>
+      <span><kbd>Tab</kbd> flight mode</span>
+      <span><kbd>C</kbd> camera</span>
+      <span><kbd>N</kbd> next car</span>
+      <span><kbd>R</kbd> reset</span>
+    </div>
+    <button id="fs" type="button">Fullscreen</button>
+  </div>
+  <p class="note">Click the game first so it gets your keys. Press <kbd>T</kbd> mid-drive to fold the wheels into fans and take off; settle onto the ground to drive again. In the air after a jump: <kbd>W</kbd><kbd>S</kbd> flip, <kbd>A</kbd><kbd>D</kbd> spin, <kbd>Q</kbd><kbd>E</kbd> roll. Race the AI cars round the canyon, fly through the sky rings, or try the loop, mega ramp and half-pipe. A gamepad works too.</p>
+</main>
+<script>
+  if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) document.getElementById("mobile-note").style.display = "block";
+  const canvas = document.getElementById("unity-canvas");
+  const errorBox = document.getElementById("error");
+  function showBanner(msg, type) {
+    if (type !== "error") return;
+    errorBox.textContent = msg;
+    errorBox.style.display = "block";
+  }
+  const config = {
+    dataUrl: "Build/hybrid-vehicle.data.unityweb",
+    frameworkUrl: "Build/hybrid-vehicle.framework.js.unityweb",
+    codeUrl: "Build/hybrid-vehicle.wasm.unityweb",
+    streamingAssetsUrl: "StreamingAssets",
+    companyName: "RageRun Games",
+    productName: "Hybrid Vehicle Controller 2",
+    productVersion: "2.0",
+    showBanner: showBanner,
+  };
+  const script = document.createElement("script");
+  script.src = "Build/hybrid-vehicle.loader.js";
+  script.onload = () => {
+    createUnityInstance(canvas, config, (p) => {
+      document.getElementById("bar").style.width = (100 * p) + "%";
+      document.getElementById("pct").textContent = Math.round(100 * p) + "%";
+    }).then((instance) => {
+      document.getElementById("loading").style.display = "none";
+      document.getElementById("fs").onclick = () => instance.SetFullscreen(1);
+      canvas.focus();
+    }).catch((message) => showBanner(String(message), "error"));
+  };
+  script.onerror = () => showBanner("The demo files couldn't be loaded. Please refresh the page.", "error");
+  document.body.appendChild(script);
+  canvas.addEventListener("pointerdown", () => canvas.focus());
+</script>
+</body>
+</html>
