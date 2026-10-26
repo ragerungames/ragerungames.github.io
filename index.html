@@ -220,6 +220,7 @@ section { padding-block: 56px; }
 .games { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 18px; }
 .game { border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; background: var(--surface); box-shadow: var(--shadow); display: flex; flex-direction: column; }
 .game-art { position: relative; aspect-ratio: 16 / 9; background: #0b1024; overflow: hidden; }
+.game-art.blank { background: radial-gradient(ellipse at 30% 70%, rgba(242,98,46,.28), transparent 60%), radial-gradient(ellipse at 75% 25%, rgba(37,66,170,.45), transparent 60%), #0b1024; }
 .game-art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .game-art .veil { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 16px; text-align: center; color: #fff; background: radial-gradient(ellipse at center, rgba(5,8,20,.15), rgba(5,8,20,.6)); }
 .game-art .veil b { font-family: var(--f-display); font-weight: 400; font-size: clamp(20px, 3vw, 28px); line-height: 1.1; letter-spacing: .02em; }
@@ -357,7 +358,7 @@ footer .visits img { display: block; height: 20px; width: auto; }
           <div class="eyebrow">Our games</div>
           <h2>Games by RageRun</h2>
         </div>
-        <p>The games we make with our own controllers. Steam page coming soon.</p>
+        <p>The games we make with our own controllers, for Steam and the browser.</p>
       </div>
       <div class="games">
         <article class="game">
@@ -368,6 +369,15 @@ footer .visits img { display: block; height: 20px; width: auto; }
           <div class="game-body">
             <h3>Uphill Both Ways</h3>
             <p>Our first game on Steam.</p>
+          </div>
+        </article>
+        <article class="game">
+          <div class="game-art blank">
+            <div class="veil"><span>Web game</span><b>Coming soon.</b></div>
+          </div>
+          <div class="game-body">
+            <h3>Roll Rampage</h3>
+            <p>A web game in the works, playable right in your browser.</p>
           </div>
         </article>
       </div>
