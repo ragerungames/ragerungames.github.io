@@ -216,6 +216,18 @@ section { padding-block: 56px; }
 .demo::before { content: "\25B6"; font-size: 11px; margin-right: 7px; position: relative; top: -1px; }
 .empty { padding: 40px; text-align: center; color: var(--muted); border: 1.5px dashed var(--line); border-radius: var(--r); }
 
+/* Games */
+.games { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 18px; }
+.game { border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; background: var(--surface); box-shadow: var(--shadow); display: flex; flex-direction: column; }
+.game-art { position: relative; aspect-ratio: 16 / 9; background: #0b1024; overflow: hidden; }
+.game-art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.game-art .veil { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 16px; text-align: center; color: #fff; background: radial-gradient(ellipse at center, rgba(5,8,20,.15), rgba(5,8,20,.6)); }
+.game-art .veil b { font-family: var(--f-display); font-weight: 400; font-size: clamp(20px, 3vw, 28px); line-height: 1.1; letter-spacing: .02em; }
+.game-art .veil span { font-family: var(--f-mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: #ffb08f; }
+.game-body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 8px; }
+.game-body h3 { font-size: 19px; font-weight: 700; }
+.game-body p { color: var(--muted); font-size: 15px; }
+
 /* Roadmap */
 .band { background: var(--surface); border-block: 1px solid var(--line); }
 .road { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; }
@@ -281,7 +293,7 @@ footer .visits img { display: block; height: 20px; width: auto; }
     </a>
     <nav class="nav" aria-label="Sections">
       <a href="#controllers">Controllers</a>
-      <a href="#coming">Coming soon</a>
+      <a href="#games">Games</a>
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
       <a class="nav-cta" id="nav-store" href="#" target="_blank" rel="noopener sponsored">Asset Store</a>
@@ -303,7 +315,7 @@ footer .visits img { display: block; height: 20px; width: auto; }
         <div class="stats">
           <div class="stat"><b id="st-live">0</b><span>controllers on the store</span></div>
           <div class="stat" id="st-demos-wrap"><b id="st-demos">0</b><span>playable web demos</span></div>
-          <div class="stat"><b id="st-next">0</b><span>new assets in the works</span></div>
+          <div class="stat" hidden><b id="st-next">0</b><span>new assets in the works</span></div>
         </div>
       </div>
       <figure class="lab" style="margin:0">
@@ -338,7 +350,31 @@ footer .visits img { display: block; height: 20px; width: auto; }
     </div>
   </section>
 
-  <section id="coming" class="band">
+  <section id="games" class="band">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <div class="eyebrow">Our games</div>
+          <h2>Games by RageRun</h2>
+        </div>
+        <p>The games we make with our own controllers. Steam page coming soon.</p>
+      </div>
+      <div class="games">
+        <article class="game">
+          <div class="game-art">
+            <img src="game-uphill-both-ways.webp" width="1200" height="688" alt="" loading="lazy">
+            <div class="veil"><span>Coming to Steam</span><b>More information soon.</b></div>
+          </div>
+          <div class="game-body">
+            <h3>Uphill Both Ways</h3>
+            <p>Our first game on Steam.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="coming" class="band" hidden>
     <div class="wrap">
       <div class="sec-head">
         <div>
