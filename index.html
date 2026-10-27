@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="RageRun Games: Unity physics controllers for skateboards, drones, paper planes, roller skates, unicycles and wobbly balance acts.">
+<meta name="description" content="RageRun Games: Unity physics assets (controllers, creators and game kits) for skateboards, drones, paper planes, roller skates, unicycles and wobbly balance acts.">
 <title>RageRun Games</title>
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
@@ -293,7 +293,7 @@ footer .visits img { display: block; height: 20px; width: auto; }
       <span class="brand-name">RageRun Games</span>
     </a>
     <nav class="nav" aria-label="Sections">
-      <a href="#controllers">Controllers</a>
+      <a href="#controllers">Assets</a>
       <a href="#games">Games</a>
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
@@ -307,14 +307,14 @@ footer .visits img { display: block; height: 20px; width: auto; }
     <div class="wrap">
       <div>
         <div class="eyebrow">Unity Asset Store publisher</div>
-        <h1>Physics controllers that <em>feel</em> fun.</h1>
-        <p class="lede">RageRun Games builds drop-in Unity controllers for skateboards, drones, paper planes, roller skates, unicycles and wobbly balance acts. Each one comes with demo scenes, full C# source and settings an artist can tune without opening a script.</p>
+        <h1>Physics assets that <em>feel</em> fun.</h1>
+        <p class="lede">RageRun Games builds drop-in Unity assets, from controllers to creators and game kits, for skateboards, drones, paper planes, roller skates, unicycles and wobbly balance acts. Each one comes with demo scenes, full C# source and settings an artist can tune without opening a script.</p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="#controllers">Browse controllers</a>
+          <a class="btn btn-primary" href="#controllers">Browse assets</a>
           <a class="btn" id="hero-store" href="#" target="_blank" rel="noopener sponsored">Publisher page</a>
         </div>
         <div class="stats">
-          <div class="stat"><b id="st-live">0</b><span>controllers on the store</span></div>
+          <div class="stat"><b id="st-live">0</b><span>assets on the store</span></div>
           <div class="stat" id="st-demos-wrap"><b id="st-demos">0</b><span>playable web demos</span></div>
           <div class="stat" hidden><b id="st-next">0</b><span>new assets in the works</span></div>
         </div>
@@ -336,15 +336,15 @@ footer .visits img { display: block; height: 20px; width: auto; }
       <div class="sec-head">
         <div>
           <div class="eyebrow">Portfolio</div>
-          <h2>Every controller, in one place</h2>
+          <h2>Every asset, in one place</h2>
         </div>
-        <p>Every controller listed here is live on the Unity Asset Store. Older assets are being rebuilt from scratch and will return as new releases.</p>
+        <p>Every asset listed here is live on the Unity Asset Store. Older assets are being rebuilt from scratch and will return as new releases.</p>
       </div>
       <div class="toolbar">
         <div class="chips" id="chips" role="group" aria-label="Filter by type"></div>
         <label class="search" for="q">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-          <input id="q" type="search" placeholder="Search controllers" autocomplete="off" aria-label="Search controllers">
+          <input id="q" type="search" placeholder="Search assets" autocomplete="off" aria-label="Search assets">
         </label>
       </div>
       <div class="grid" id="grid"></div>
@@ -358,7 +358,7 @@ footer .visits img { display: block; height: 20px; width: auto; }
           <div class="eyebrow">Our games</div>
           <h2>Games by RageRun</h2>
         </div>
-        <p>The games we make with our own controllers, for Steam and the browser.</p>
+        <p>The games we make with our own tools, for Steam and the browser.</p>
       </div>
       <div class="games">
         <article class="game">
@@ -463,10 +463,10 @@ footer .visits img { display: block; height: 20px; width: auto; }
      gen: "new" (current playbook) or "classic" (overhaul planned).
      cat: flight | ground | balance | action */
   const CONTROLLERS = [
-    { name: "Hybrid Vehicle Controller 2: Flying Car, Drone, Stunts & AI", img: "card-hybrid-vehicle.webp", id: 418642, demo: "demos/hybrid-vehicle/", gen: "new", cat: "flight", icon: "flycar",
+    { name: "Hybrid Vehicle Controller 2: Flying Car, Drone, Stunts & AI", img: "card-hybrid-vehicle.webp?v=2", id: 418642, demo: "demos/hybrid-vehicle/", gen: "new", cat: "flight", icon: "flycar",
       desc: "A car that drives like a real car, folds its wheels into fans and flies like a drone. Realistic tyres and gearbox, Hover, Sport and Acro flight, stunts with combos, AI racers and a canyon stunt park.",
       tags: ["Unity 6", "URP", "AI racers"] },
-    { name: "Pro Skate Controller: Physics Skateboarding Kit", img: "card-pro-skate.webp", local: "https://assetstorev1-prd-cdn.unity3d.com/key-image/1b5c9b09-05c5-4dc3-9273-8eb31ea14f81.jpg?v=1", id: 419320, demo: "demos/pro-skate/", gen: "new", cat: "ground", icon: "skate",
+    { name: "Pro Skate Controller: Skateboarding Physics, Tricks & Park Builder", img: "card-pro-skate.webp", local: "https://assetstorev1-prd-cdn.unity3d.com/key-image/1b5c9b09-05c5-4dc3-9273-8eb31ea14f81.jpg?v=1", id: 419320, demo: "demos/pro-skate/", gen: "new", cat: "ground", icon: "skate",
       desc: "Physics skateboarding with flick-stick tricks, grinds, manuals, lip tricks and reverts, a procedural IK skater who can step off and walk with the board, a Skateboard Creator and a Park Builder.",
       tags: ["Unity 6","URP + Built-in","Skateboard Creator"] },
     { name: "Drone Flight Controller Pro: Drone Physics & Drone Creator", img: "card-drone-flight-pro.webp", id: 418284, demo: "demos/drone-flight-pro/", gen: "new", cat: "flight", icon: "drone",
@@ -562,7 +562,7 @@ footer .visits img { display: block; height: 20px; width: auto; }
   const grid = document.getElementById("grid");
   function renderGrid() {
     const list = CONTROLLERS.filter(matches);
-    if (!list.length) { grid.innerHTML = `<div class="empty">No controllers match “${esc(query)}”. Try another word or clear the filter.</div>`; return; }
+    if (!list.length) { grid.innerHTML = `<div class="empty">No assets match “${esc(query)}”. Try another word or clear the filter.</div>`; return; }
     grid.innerHTML = list.map((c) => {
       const href = c.id ? pkg(c.id) : storeUrl;
       const tag = c.gen === "new" ? '<span class="tag tag-new">New</span>' : '';
