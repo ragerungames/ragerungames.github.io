@@ -109,5 +109,29 @@
   document.body.appendChild(script);
   canvas.addEventListener("pointerdown", () => canvas.focus());
 </script>
+<!-- Visit counter: always counts; hold Shift and press + three times to show or hide it (remembered in this browser). -->
+<div id="rr-visits" style="position:fixed;left:12px;bottom:12px;z-index:50;display:none;pointer-events:none"></div>
+<script>
+(() => {
+  const box = document.getElementById("rr-visits");
+  const img = new Image();
+  img.alt = "Visits"; img.height = 20; img.style.display = "block";
+  img.src = "https://visitor-badge.laobi.icu/badge?page_id=ragerungames.github.io.demo.pro-skate&left_text=pro-skate%20visits&left_color=%23141a2e&right_color=%23f2622e";
+  img.onerror = () => { box.textContent = ""; };
+  box.appendChild(img);
+  const KEY = "rr-visits-shown";
+  const show = (on) => { box.style.display = on ? "block" : "none"; try { localStorage.setItem(KEY, on ? "1" : "0"); } catch (e) {} };
+  try { if (localStorage.getItem(KEY) === "1") box.style.display = "block"; } catch (e) {}
+  let taps = [];
+  addEventListener("keyup", (e) => { if (e.key === "Shift") taps = []; }, true);
+  addEventListener("keydown", (e) => {
+    const plus = e.key === "+" || e.code === "Equal" || e.code === "NumpadAdd";
+    if (!e.shiftKey || !plus || e.repeat) return;
+    const now = performance.now();
+    taps = taps.filter((t) => now - t < 2000); taps.push(now);
+    if (taps.length >= 3) { taps = []; show(box.style.display === "none"); }
+  }, true);
+})();
+</script>
 </body>
 </html>
