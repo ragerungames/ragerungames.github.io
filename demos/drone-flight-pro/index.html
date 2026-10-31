@@ -119,16 +119,15 @@
   document.body.appendChild(script);
   canvas.addEventListener("pointerdown", () => canvas.focus());
 </script>
-<!-- Visit counter: always counts; hold Shift and press + three times to show or hide it (remembered in this browser). -->
-<div id="rr-visits" style="position:fixed;left:12px;bottom:12px;z-index:50;display:none;pointer-events:none"></div>
+<!-- Visit counter: always counts; hold Shift and press + three times to show or hide it (remembered in this browser, same switch as the home page). -->
+<div id="rr-visits" style="position:fixed;left:12px;bottom:12px;z-index:50;display:none;pointer-events:none;font:600 12px/1 ui-monospace,Menlo,Consolas,monospace;color:#fff"></div>
 <script>
 (() => {
+  const BASE = "https://abacus.jasoncameron.dev", NS = "ragerungames-site", SLUG = "drone-flight-pro";
   const box = document.getElementById("rr-visits");
-  const img = new Image();
-  img.alt = "Visits"; img.height = 20; img.style.display = "block";
-  img.src = "https://visitor-badge.laobi.icu/badge?page_id=ragerungames.github.io.demo.drone-flight-pro&left_text=drone-flight-pro%20visits&left_color=%23141a2e&right_color=%23f2622e";
-  img.onerror = () => { box.textContent = ""; };
-  box.appendChild(img);
+  const part = (text, bg, radius) => { const s = document.createElement("span"); s.textContent = text; s.style.cssText = "display:inline-block;padding:5px 9px;background:" + bg + ";border-radius:" + radius; return s; };
+  const render = (n) => { box.textContent = ""; box.append(part(SLUG + " visits", "#141a2e", "4px 0 0 4px"), part(String(n), "#f2622e", "0 4px 4px 0")); };
+  fetch(BASE + "/hit/" + NS + "/demo-" + SLUG, { cache: "no-store" }).then((r) => r.json()).then((d) => { if (typeof d.value === "number") render(d.value); }).catch(() => {});
   const KEY = "rr-visits-shown";
   const show = (on) => { box.style.display = on ? "block" : "none"; try { localStorage.setItem(KEY, on ? "1" : "0"); } catch (e) {} };
   try { if (localStorage.getItem(KEY) === "1") box.style.display = "block"; } catch (e) {}
