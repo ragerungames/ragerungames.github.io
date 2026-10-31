@@ -7,7 +7,7 @@
 <link rel="icon" href="../../favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32.png">
 <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
-<meta name="description" content="Play the Pro Skate Controller demo in your browser: physics skateboarding with flip tricks, grinds, manuals, lip tricks and ragdoll bails in two skate parks. A Unity asset by RageRun Games.">
+<meta name="description" content="Play the Pro Skate Controller demo in your browser: physics skateboarding with flip tricks, grinds, manuals, lip tricks and ragdoll bails in two skate parks, plus downhill racing on an Alpine pass with splits and a ghost. A Unity asset by RageRun Games.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
@@ -51,7 +51,7 @@
   <div class="stage">
     <canvas id="unity-canvas" tabindex="-1"></canvas>
     <div class="loading" id="loading">
-      <b>Loading the skate park…</b>
+      <b>Loading the skate parks…</b>
       <div class="bar"><i id="bar"></i></div>
       <small id="pct">0%</small>
     </div>
@@ -66,13 +66,14 @@
       <span><kbd>F</kbd><kbd>G</kbd> manuals</span>
       <span><kbd>Q</kbd><kbd>E</kbd> grabs</span>
       <span><kbd>B</kbd> step off</span>
+      <span><kbd>C</kbd> powerslide</span>
       <span><kbd>R</kbd> reset</span>
       <span><kbd>H</kbd> all controls</span>
       <span><kbd>Backspace</kbd> back to menu</span>
     </div>
     <button id="fs" type="button">Fullscreen</button>
   </div>
-  <p class="note">Click the game first so it gets your keys. Gamepads work too: press a button to connect. Press H in a park for the full controls card.</p>
+  <p class="note">Click the game first so it gets your keys. Gamepads work too: press a button to connect. Press H in a park for the full controls card. Downhill: kick off on GO, stop pushing to tuck, powerslide (C) before the hairpins; R goes back to the last split, hold R to restart.</p>
 </main>
 <script>
   if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) document.getElementById("mobile-note").style.display = "block";
@@ -90,7 +91,7 @@
     streamingAssetsUrl: "StreamingAssets",
     companyName: "RageRun Games",
     productName: "Pro Skate Controller",
-    productVersion: "1.0",
+    productVersion: "1.2",
     showBanner: showBanner,
   };
   const script = document.createElement("script");
