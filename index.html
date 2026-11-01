@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="RageRun Games: Unity physics assets (controllers, creators and game kits) for skateboards, drones, paper planes, roller skates, unicycles and wobbly balance acts.">
+<meta name="description" content="RageRun Games: Unity physics controllers for skateboards, drones, paper planes, roller skates, unicycles and wobbly balance acts.">
 <title>RageRun Games</title>
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
@@ -280,13 +280,7 @@ footer { border-top: 1px solid var(--line); }
 footer .wrap { padding-block: 26px; display: flex; flex-wrap: wrap; gap: 12px 24px; justify-content: space-between; font-size: 13px; color: var(--muted); }
 footer p { max-width: 70ch; }
 footer .visits { flex-basis: 100%; }
-/* Hidden visit counters (owner only): shown with Shift and + three times */
-.vc { display: none; margin-left: 8px; padding: 2px 8px; border-radius: 99px; background: rgba(0, 0, 0, .3); font-family: var(--f-mono); font-size: 11px; font-weight: 600; }
-html.rr-counts .vc:not(:empty) { display: inline-block; }
-.rr-badge { display: inline-flex; font-family: var(--f-mono); font-size: 12px; font-weight: 600; border-radius: 4px; overflow: hidden; vertical-align: middle; }
-.rr-badge .l { background: #141a2e; color: #fff; padding: 4px 9px; }
-.rr-badge .r { background: #f2622e; color: #fff; padding: 4px 9px; }
-.rr-sub { margin-left: 10px; font-family: var(--f-mono); font-size: 12px; color: var(--muted); vertical-align: middle; }
+footer .visits img { display: block; height: 20px; width: auto; }
 </style>
 </head>
 <body>
@@ -299,7 +293,7 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
       <span class="brand-name">RageRun Games</span>
     </a>
     <nav class="nav" aria-label="Sections">
-      <a href="#controllers">Assets</a>
+      <a href="#controllers">Controllers</a>
       <a href="#games">Games</a>
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
@@ -313,14 +307,14 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
     <div class="wrap">
       <div>
         <div class="eyebrow">Unity Asset Store publisher</div>
-        <h1>Physics assets that <em>feel</em> fun.</h1>
-        <p class="lede">RageRun Games builds drop-in Unity assets, from controllers to creators and game kits, for skateboards, drones, paper planes, roller skates, unicycles and wobbly balance acts. Each one comes with demo scenes, full C# source and settings an artist can tune without opening a script.</p>
+        <h1>Physics controllers that <em>feel</em> fun.</h1>
+        <p class="lede">RageRun Games builds drop-in Unity controllers for skateboards, drones, paper planes, roller skates, unicycles and wobbly balance acts. Each one comes with demo scenes, full C# source and settings an artist can tune without opening a script.</p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="#controllers">Browse assets</a>
+          <a class="btn btn-primary" href="#controllers">Browse controllers</a>
           <a class="btn" id="hero-store" href="#" target="_blank" rel="noopener sponsored">Publisher page</a>
         </div>
         <div class="stats">
-          <div class="stat"><b id="st-live">0</b><span>assets on the store</span></div>
+          <div class="stat"><b id="st-live">0</b><span>controllers on the store</span></div>
           <div class="stat" id="st-demos-wrap"><b id="st-demos">0</b><span>playable web demos</span></div>
           <div class="stat" hidden><b id="st-next">0</b><span>new assets in the works</span></div>
         </div>
@@ -342,15 +336,15 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
       <div class="sec-head">
         <div>
           <div class="eyebrow">Portfolio</div>
-          <h2>Every asset, in one place</h2>
+          <h2>Every controller, in one place</h2>
         </div>
-        <p>Every asset listed here is live on the Unity Asset Store. Older assets are being rebuilt from scratch and will return as new releases.</p>
+        <p>Every controller listed here is live on the Unity Asset Store. Older assets are being rebuilt from scratch and will return as new releases.</p>
       </div>
       <div class="toolbar">
         <div class="chips" id="chips" role="group" aria-label="Filter by type"></div>
         <label class="search" for="q">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-          <input id="q" type="search" placeholder="Search assets" autocomplete="off" aria-label="Search assets">
+          <input id="q" type="search" placeholder="Search controllers" autocomplete="off" aria-label="Search controllers">
         </label>
       </div>
       <div class="grid" id="grid"></div>
@@ -364,7 +358,7 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
           <div class="eyebrow">Our games</div>
           <h2>Games by RageRun</h2>
         </div>
-        <p>The games we make with our own tools, for Steam and the browser.</p>
+        <p>The games we make with our own controllers, for Steam and the browser.</p>
       </div>
       <div class="games">
         <article class="game">
@@ -452,7 +446,7 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
   <div class="wrap">
     <p>&copy; 2026 RageRun Games. Asset Store links on this page are affiliate links: buying through them supports the studio at no extra cost to you.</p>
     <p>Unity and the Unity Asset Store are trademarks of Unity Technologies.</p>
-    <p class="visits" id="visits" hidden></p>
+    <p class="visits" id="visits"><img src="https://visitor-badge.laobi.icu/badge?page_id=ragerungames.github.io&amp;left_text=Visitors&amp;left_color=%23141a2e&amp;right_color=%23f2622e" alt="Visitor count" height="20" onerror="this.closest('.visits').hidden = true"></p>
   </div>
 </footer>
 
@@ -469,13 +463,10 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
      gen: "new" (current playbook) or "classic" (overhaul planned).
      cat: flight | ground | balance | action */
   const CONTROLLERS = [
-    { name: "Swarm Shapeshifter Controller: Morphing Swarm Body & Form Creator", img: "card-swarm-shapeshifter.webp", id: 422438, demo: "demos/swarm-shapeshifter/", gen: "new", cat: "action", icon: "ball",
-      desc: "A playable body of thousands of leaves that morphs into 18 forms, each with its own moves and ability. Hold a key to build bridges, towers and ramps, design your own forms, builds and abilities, and smash robots across two demo scenes.",
-      tags: ["Unity 6", "URP", "Form Creator", "Build Creator"] },
-    { name: "Hybrid Vehicle Controller 2: Flying Car, Drone, Stunts & AI", img: "card-hybrid-vehicle.webp?v=2", id: 418642, demo: "demos/hybrid-vehicle/", gen: "new", cat: "flight", icon: "flycar",
+    { name: "Hybrid Vehicle Controller 2: Flying Car, Drone, Stunts & AI", img: "card-hybrid-vehicle.webp", id: 418642, demo: "demos/hybrid-vehicle/", gen: "new", cat: "flight", icon: "flycar",
       desc: "A car that drives like a real car, folds its wheels into fans and flies like a drone. Realistic tyres and gearbox, Hover, Sport and Acro flight, stunts with combos, AI racers and a canyon stunt park.",
       tags: ["Unity 6", "URP", "AI racers"] },
-    { name: "Pro Skate Controller: Skateboarding Physics, Tricks & Park Builder", img: "card-pro-skate.webp", local: "https://assetstorev1-prd-cdn.unity3d.com/key-image/1b5c9b09-05c5-4dc3-9273-8eb31ea14f81.jpg?v=1", id: 419320, demo: "demos/pro-skate/", gen: "new", cat: "ground", icon: "skate",
+    { name: "Pro Skate Controller: Physics Skateboarding Kit", img: "card-pro-skate.webp", local: "https://assetstorev1-prd-cdn.unity3d.com/key-image/1b5c9b09-05c5-4dc3-9273-8eb31ea14f81.jpg?v=1", id: 419320, demo: "demos/pro-skate/", gen: "new", cat: "ground", icon: "skate",
       desc: "Physics skateboarding with flick-stick tricks, grinds, manuals, lip tricks and reverts, a procedural IK skater who can step off and walk with the board, a Skateboard Creator and a Park Builder.",
       tags: ["Unity 6","URP + Built-in","Skateboard Creator"] },
     { name: "Drone Flight Controller Pro: Drone Physics & Drone Creator", img: "card-drone-flight-pro.webp", id: 418284, demo: "demos/drone-flight-pro/", gen: "new", cat: "flight", icon: "drone",
@@ -571,11 +562,11 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
   const grid = document.getElementById("grid");
   function renderGrid() {
     const list = CONTROLLERS.filter(matches);
-    if (!list.length) { grid.innerHTML = `<div class="empty">No assets match “${esc(query)}”. Try another word or clear the filter.</div>`; return; }
+    if (!list.length) { grid.innerHTML = `<div class="empty">No controllers match “${esc(query)}”. Try another word or clear the filter.</div>`; return; }
     grid.innerHTML = list.map((c) => {
       const href = c.id ? pkg(c.id) : storeUrl;
       const tag = c.gen === "new" ? '<span class="tag tag-new">New</span>' : '';
-      const demo = c.demo ? `<a class="demo" href="${c.demo}" target="_blank" rel="noopener">Play demo<span class="vc" data-slug="${c.demo.split('/')[1]}"></span></a>` : "";
+      const demo = c.demo ? `<a class="demo" href="${c.demo}" target="_blank" rel="noopener">Play demo</a>` : "";
       return `<article class="card" data-cat="${c.cat}">
         ${c.img ? `<div class="card-art has-img">${tag}<img src="${c.img}" data-local="${c.local || ""}" data-icon="${c.icon}" alt="${esc(c.name)} cover image" width="420" height="280" loading="lazy"></div>` : `<div class="card-art">${tag}${ICONS[c.icon] || ""}</div>`}
         <div class="card-body">
@@ -588,7 +579,6 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
         </div>
       </article>`;
     }).join("");
-    if (window.rrPaint) window.rrPaint();
   }
   grid.addEventListener("error", (e) => {
     const img = e.target;
@@ -605,7 +595,6 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
 
   document.getElementById("st-live").textContent = CONTROLLERS.length;
   const nDemos = CONTROLLERS.filter((c) => c.demo).length;
-  window.RR_DEMOS = CONTROLLERS.filter((c) => c.demo).map((c) => c.demo.split("/")[1]);
   document.getElementById("st-demos").textContent = nDemos;
   document.getElementById("st-demos-wrap").hidden = nDemos === 0;
   document.getElementById("st-next").textContent = ROADMAP.length;
@@ -721,73 +710,6 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
   }
   if (reduce) { th = 0.12; draw(); cv.addEventListener("pointermove", (e) => { setTarget(e); x = Math.max(-(W / 2 - R - 12), Math.min(W / 2 - R - 12, target)); draw(); }); }
   else requestAnimationFrame(frame);
-})();
-</script>
-
-<script>
-/* Hidden visit counters (owner only). Every home page load counts as one home visit.
-   Hold Shift and press + three times to show or hide the total (home + all demos) in the footer
-   and each demo's count on its Play demo button. Same switch as the demo pages. */
-(() => {
-  const BASE = "https://abacus.jasoncameron.dev", NS = "ragerungames-site", KEY = "rr-visits-shown";
-  const root = document.documentElement, box = document.getElementById("visits");
-  const counts = {};
-  const read = (u) => fetch(u, { cache: "no-store" }).then((r) => r.json()).then((d) => (typeof d.value === "number" ? d.value : null)).catch(() => null);
-  const hitHome = read(BASE + "/hit/" + NS + "/home").then((v) => { if (v !== null) counts.home = v; });
-
-  function paint() {
-    document.querySelectorAll(".vc[data-slug]").forEach((el) => {
-      const n = counts["demo-" + el.dataset.slug];
-      el.textContent = typeof n === "number" ? String(n) : "";
-    });
-  }
-  window.rrPaint = paint;
-
-  function cell(text, cls) { const b = document.createElement("b"); b.className = cls; b.textContent = text; return b; }
-  function renderTotal() {
-    box.textContent = "";
-    if (typeof counts.home !== "number") return;
-    const demos = (window.RR_DEMOS || []).reduce((a, s) => a + (counts["demo-" + s] || 0), 0);
-    const badge = document.createElement("span"); badge.className = "rr-badge";
-    badge.append(cell("Total visits", "l"), cell(String(counts.home + demos), "r"));
-    const sub = document.createElement("span"); sub.className = "rr-sub";
-    sub.textContent = "home " + counts.home + " \u00b7 demos " + demos;
-    box.append(badge, sub);
-  }
-
-  async function refresh() {
-    await hitHome;
-    const keys = (window.RR_DEMOS || []).map((s) => "demo-" + s);
-    if (typeof counts.home !== "number") keys.push("home");
-    const vals = await Promise.all(keys.map((k) => read(BASE + "/get/" + NS + "/" + k)));
-    keys.forEach((k, i) => { if (vals[i] !== null) counts[k] = vals[i]; });
-    renderTotal(); paint();
-  }
-
-  function apply(on) {
-    root.classList.toggle("rr-counts", on);
-    box.hidden = !on;
-    if (on) refresh();
-  }
-  let saved = false;
-  try { saved = localStorage.getItem(KEY) === "1"; } catch (e) {}
-  apply(saved);
-
-  let taps = [];
-  addEventListener("keyup", (e) => { if (e.key === "Shift") taps = []; }, true);
-  addEventListener("keydown", (e) => {
-    const plus = e.key === "+" || e.code === "Equal" || e.code === "NumpadAdd";
-    if (!e.shiftKey || !plus || e.repeat) return;
-    if (e.target && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
-    const now = performance.now();
-    taps = taps.filter((t) => now - t < 2000); taps.push(now);
-    if (taps.length >= 3) {
-      taps = [];
-      const on = !root.classList.contains("rr-counts");
-      try { localStorage.setItem(KEY, on ? "1" : "0"); } catch (e2) {}
-      apply(on);
-    }
-  }, true);
 })();
 </script>
 
