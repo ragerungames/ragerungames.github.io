@@ -3,134 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Jelly Shapeshifter Controller – Play the Web Demo | RageRun Games</title>
+<title>Jelly Shapeshifter Controller | RageRun Games</title>
+<meta name="robots" content="noindex">
+<meta http-equiv="refresh" content="4; url=https://ragerungames.github.io/">
 <link rel="icon" href="../../favicon.ico" sizes="any">
-<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32.png">
-<link rel="apple-touch-icon" href="../../apple-touch-icon.png">
-<meta name="description" content="Play the Jelly Shapeshifter Controller demo in your browser: a squishy soft-body jelly that morphs into a puddle, spring, spider, balloon and Blob Hero. Two demo levels. A Unity asset by RageRun Games.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
-  :root { --bg: #0e1322; --panel: #141a2e; --line: #26304d; --ink: #f4f1ea; --muted: #a3abc2; --orange: #f2622e; --orange-ink: #d94e1c; }
-  * { box-sizing: border-box; }
-  html, body { margin: 0; background: var(--bg); color: var(--ink); font-family: Inter, system-ui, sans-serif; }
-  a { color: inherit; }
-  header { display: flex; align-items: center; gap: 12px; justify-content: space-between; flex-wrap: wrap; padding: 14px 16px; max-width: 1312px; margin: 0 auto; }
-  .back { text-decoration: none; color: var(--muted); font-weight: 600; font-size: 14px; }
-  .back:hover { color: var(--ink); }
-  h1 { font-size: 20px; margin: 0; font-weight: 800; }
-  h1 span { color: var(--orange); }
-  .buy { text-decoration: none; background: var(--orange); color: #fff; font-weight: 800; font-size: 14px; padding: 9px 14px; border-radius: 10px; }
-  .buy:hover { background: var(--orange-ink); }
-  main { max-width: 1312px; margin: 0 auto; padding: 0 16px 24px; }
-  .stage { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
-  canvas { display: block; width: 100%; height: 100%; outline: none; }
-  .loading { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; background: var(--panel); }
-  .loading b { font-size: 18px; }
-  .bar { width: min(360px, 70%); height: 10px; border-radius: 6px; background: var(--line); overflow: hidden; }
-  .bar i { display: block; height: 100%; width: 0; background: var(--orange); transition: width .2s; }
-  .loading small { color: var(--muted); }
-  .error { position: absolute; left: 12px; right: 12px; top: 12px; background: #b3261e; color: #fff; padding: 10px 12px; border-radius: 10px; font-size: 14px; display: none; }
-  .bar-under { display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-top: 12px; }
-  .keys { display: flex; gap: 8px 16px; flex-wrap: wrap; color: var(--muted); font-size: 14px; }
-  kbd { font-family: inherit; font-size: 12px; font-weight: 600; color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 6px; padding: 2px 6px; }
-  button { font: inherit; font-weight: 700; font-size: 14px; color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; cursor: pointer; }
-  button:hover { border-color: var(--ink); }
-  .note { color: var(--muted); font-size: 13px; margin-top: 10px; }
-  .mobile-note { display: none; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font-size: 14px; margin-bottom: 12px; }
+  html, body { margin: 0; height: 100%; background: #0e1322; color: #f4f1ea; font-family: Inter, system-ui, sans-serif; }
+  main { min-height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 16px; text-align: center; }
+  h1 { margin: 0; font-size: 24px; }
+  p { margin: 0; color: #a3abc2; }
+  a { color: #fff; background: #f2622e; text-decoration: none; font-weight: 800; padding: 10px 16px; border-radius: 10px; }
 </style>
 </head>
 <body>
-<header>
-  <a class="back" href="https://ragerungames.github.io/">← RageRun Games</a>
-  <h1>Jelly Shapeshifter Controller <span>web demo</span></h1>
-  <a class="buy" href="https://assetstore.unity.com/?q=Jelly%20Shapeshifter%20Controller&aid=1101l3IyVT" target="_blank" rel="noopener sponsored">Get it on the Asset Store</a>
-</header>
 <main>
-  <div class="mobile-note" id="mobile-note">This demo is made for a keyboard or gamepad. It's best on a desktop or laptop.</div>
-  <div class="stage">
-    <canvas id="unity-canvas" tabindex="-1"></canvas>
-    <div class="loading" id="loading">
-      <b>Warming up the jelly…</b>
-      <div class="bar"><i id="bar"></i></div>
-      <small id="pct">0%</small>
-    </div>
-    <div class="error" id="error"></div>
-  </div>
-  <div class="bar-under">
-    <div class="keys">
-      <span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> move</span>
-      <span><kbd>Shift</kbd> run</span>
-      <span><kbd>Space</kbd> jump (hold to charge the Spring)</span>
-      <span><kbd>1</kbd>-<kbd>9</kbd> <kbd>0</kbd> <kbd>Q</kbd> <kbd>E</kbd> change form</span>
-      <span><kbd>F</kbd> form ability</span>
-      <span><kbd>X</kbd> split / merge</span>
-      <span><kbd>Tab</kbd> change places</span>
-      <span><kbd>R</kbd> respawn</span>
-      <span><kbd>H</kbd> controls</span>
-      <span><kbd>Backspace</kbd> back to menu</span>
-    </div>
-    <button id="fs" type="button">Fullscreen</button>
-  </div>
-  <p class="note">Click the game first so it gets your keys. Gamepads work too: press a button to connect. Pick Candy Lab or the Playground in the menu. H shows the full controls in each level. Hold the right mouse button to turn the camera.</p>
+  <h1>The Jelly Shapeshifter demo is coming soon</h1>
+  <p>Taking you back to RageRun Games…</p>
+  <a href="https://ragerungames.github.io/">RageRun Games</a>
 </main>
-<script>
-  if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) document.getElementById("mobile-note").style.display = "block";
-  const canvas = document.getElementById("unity-canvas");
-  const errorBox = document.getElementById("error");
-  function showBanner(msg, type) {
-    if (type !== "error") return;
-    errorBox.textContent = msg;
-    errorBox.style.display = "block";
-  }
-  const config = {
-    dataUrl: "Build/jelly-shapeshifter.data.unityweb",
-    frameworkUrl: "Build/jelly-shapeshifter.framework.js.unityweb",
-    codeUrl: "Build/jelly-shapeshifter.wasm.unityweb",
-    streamingAssetsUrl: "StreamingAssets",
-    companyName: "RageRun Games",
-    productName: "Jelly Shapeshifter Controller",
-    productVersion: "1.0",
-    showBanner: showBanner,
-  };
-  const script = document.createElement("script");
-  script.src = "Build/jelly-shapeshifter.loader.js";
-  script.onload = () => {
-    createUnityInstance(canvas, config, (p) => {
-      document.getElementById("bar").style.width = (100 * p) + "%";
-      document.getElementById("pct").textContent = Math.round(100 * p) + "%";
-    }).then((instance) => {
-      document.getElementById("loading").style.display = "none";
-      document.getElementById("fs").onclick = () => instance.SetFullscreen(1);
-      canvas.focus();
-    }).catch((message) => showBanner(String(message), "error"));
-  };
-  script.onerror = () => showBanner("The demo files couldn't be loaded. Please refresh the page.", "error");
-  document.body.appendChild(script);
-  canvas.addEventListener("pointerdown", () => canvas.focus());
-</script>
-<!-- Visit counter: always counts; hold Shift and press + three times to show or hide it (remembered in this browser, same switch as the home page). -->
-<div id="rr-visits" style="position:fixed;left:12px;bottom:12px;z-index:50;display:none;pointer-events:none;font:600 12px/1 ui-monospace,Menlo,Consolas,monospace;color:#fff"></div>
-<script>
-(() => {
-  const BASE = "https://abacus.jasoncameron.dev", NS = "ragerungames-site", SLUG = "jelly-shapeshifter";
-  const box = document.getElementById("rr-visits");
-  const part = (text, bg, radius) => { const s = document.createElement("span"); s.textContent = text; s.style.cssText = "display:inline-block;padding:5px 9px;background:" + bg + ";border-radius:" + radius; return s; };
-  const render = (n) => { box.textContent = ""; box.append(part(SLUG + " visits", "#141a2e", "4px 0 0 4px"), part(String(n), "#f2622e", "0 4px 4px 0")); };
-  fetch(BASE + "/hit/" + NS + "/demo-" + SLUG, { cache: "no-store" }).then((r) => r.json()).then((d) => { if (typeof d.value === "number") render(d.value); }).catch(() => {});
-  const KEY = "rr-visits-shown";
-  const show = (on) => { box.style.display = on ? "block" : "none"; try { localStorage.setItem(KEY, on ? "1" : "0"); } catch (e) {} };
-  try { if (localStorage.getItem(KEY) === "1") box.style.display = "block"; } catch (e) {}
-  let taps = [];
-  addEventListener("keyup", (e) => { if (e.key === "Shift") taps = []; }, true);
-  addEventListener("keydown", (e) => {
-    const plus = e.key === "+" || e.code === "Equal" || e.code === "NumpadAdd";
-    if (!e.shiftKey || !plus || e.repeat) return;
-    const now = performance.now();
-    taps = taps.filter((t) => now - t < 2000); taps.push(now);
-    if (taps.length >= 3) { taps = []; show(box.style.display === "none"); }
-  }, true);
-})();
-</script>
 </body>
 </html>
