@@ -364,7 +364,7 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
           <div class="eyebrow">Our games</div>
           <h2>Games by RageRun</h2>
         </div>
-        <p>The games we make with our own tools, for Steam and the browser.</p>
+        <p>The games we make with our own tools, for Steam.</p>
       </div>
       <div class="games">
         <article class="game">
@@ -374,16 +374,7 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
           <div class="game-body">
             <h3>Uphill Both Ways</h3>
             <p>Our first game on Steam.</p>
-            <a class="btn btn-primary" style="align-self:flex-start;margin-top:6px" href="https://store.steampowered.com/app/5505890/Uphill_Both_Ways/" target="_blank" rel="noopener">Wishlist on Steam</a>
-          </div>
-        </article>
-        <article class="game">
-          <div class="game-art blank">
-            <div class="veil"><span>Web game</span><b>Coming soon.</b></div>
-          </div>
-          <div class="game-body">
-            <h3>Roll Rampage</h3>
-            <p>A web game in the works, playable right in your browser.</p>
+            <a class="btn btn-primary" style="align-self:flex-start;margin-top:6px" data-track="steam-wishlist" href="https://store.steampowered.com/app/5505890/Uphill_Both_Ways/" target="_blank" rel="noopener">Wishlist on Steam<span class="vc" data-key="steam-wishlist"></span></a>
           </div>
         </article>
       </div>
@@ -740,6 +731,10 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
       const n = counts["demo-" + el.dataset.slug];
       el.textContent = typeof n === "number" ? String(n) : "";
     });
+    document.querySelectorAll(".vc[data-key]").forEach((el) => {
+      const n = counts[el.dataset.key];
+      el.textContent = typeof n === "number" ? "clicks " + n : "";
+    });
   }
   window.rrPaint = paint;
 
@@ -757,7 +752,7 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
 
   async function refresh() {
     await hitHome;
-    const keys = (window.RR_DEMOS || []).map((s) => "demo-" + s);
+    const keys = (window.RR_DEMOS || []).map((s) => "demo-" + s).concat("steam-wishlist");
     if (typeof counts.home !== "number") keys.push("home");
     const vals = await Promise.all(keys.map((k) => read(BASE + "/get/" + NS + "/" + k)));
     keys.forEach((k, i) => { if (vals[i] !== null) counts[k] = vals[i]; });
@@ -772,6 +767,16 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
   let saved = false;
   try { saved = localStorage.getItem(KEY) === "1"; } catch (e) {}
   apply(saved);
+
+  /* Click-through tracker: every click on a [data-track] link counts once under that key. */
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest && e.target.closest("a[data-track]");
+    if (!a) return;
+    const key = a.dataset.track;
+    fetch(BASE + "/hit/" + NS + "/" + key, { keepalive: true }).then((r) => r.json()).then((d) => {
+      if (typeof d.value === "number") { counts[key] = d.value; paint(); }
+    }).catch(() => {});
+  });
 
   let taps = [];
   addEventListener("keyup", (e) => { if (e.key === "Shift") taps = []; }, true);
