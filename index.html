@@ -213,7 +213,7 @@ section { padding-block: 56px; }
 .buy:hover { background: var(--orange); color: #fff; }
 .demo { background: #e8541f; color: #fff; box-shadow: 0 4px 14px rgba(232, 84, 31, 0.35); }
 .demo:hover { background: #c94312; }
-.demo-soon { display: inline-flex; align-items: center; padding: 12px 4px; font-size: 14px; font-weight: 600; color: var(--muted); }
+.demo.demo-off, .demo.demo-off:hover { background: #e8541f; opacity: .38; box-shadow: none; cursor: default; pointer-events: none; }
 .demo::before { content: "\25B6"; font-size: 11px; margin-right: 7px; position: relative; top: -1px; }
 .empty { padding: 40px; text-align: center; color: var(--muted); border: 1.5px dashed var(--line); border-radius: var(--r); }
 
@@ -570,7 +570,7 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
     grid.innerHTML = list.map((c) => {
       const href = c.id ? pkg(c.id) : storeUrl;
       const tag = c.gen === "new" ? '<span class="tag tag-new">New</span>' : '';
-      const soon = c.soon ? `<span class="demo-soon">Demo coming soon</span>` : "";
+      const soon = c.soon ? `<a class="demo demo-off" aria-disabled="true" tabindex="-1">Coming soon</a>` : "";
       const demo = c.demo ? `<a class="demo" href="${c.demo}" target="_blank" rel="noopener">Play demo<span class="vc" data-slug="${c.demo.split('/')[1]}"></span></a>` : "";
       return `<article class="card" data-cat="${c.cat}">
         ${c.img ? `<div class="card-art has-img">${tag}<img src="${c.img}" data-local="${c.local || ""}" data-icon="${c.icon}" alt="${esc(c.name)} cover image" width="420" height="280" loading="lazy"></div>` : `<div class="card-art">${tag}${ICONS[c.icon] || ""}</div>`}
