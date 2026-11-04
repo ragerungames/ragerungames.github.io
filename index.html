@@ -213,6 +213,7 @@ section { padding-block: 56px; }
 .buy:hover { background: var(--orange); color: #fff; }
 .demo { background: #e8541f; color: #fff; box-shadow: 0 4px 14px rgba(232, 84, 31, 0.35); }
 .demo:hover { background: #c94312; }
+.demo-soon { display: inline-flex; align-items: center; padding: 12px 4px; font-size: 14px; font-weight: 600; color: var(--muted); }
 .demo::before { content: "\25B6"; font-size: 11px; margin-right: 7px; position: relative; top: -1px; }
 .empty { padding: 40px; text-align: center; color: var(--muted); border: 1.5px dashed var(--line); border-radius: var(--r); }
 
@@ -460,6 +461,9 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
      gen: "new" (current playbook) or "classic" (overhaul planned).
      cat: flight | ground | balance | action */
   const CONTROLLERS = [
+    { name: "Pogo Stick Controller 2.0: Bouncy Physics, Tricks & 4 Game Modes", img: "card-pogo-stick.webp", id: 418050, soon: true, gen: "new", cat: "action", icon: "ball",
+      desc: "Bouncy pogo stick physics with big jumps, air tricks and combos, a score chase and four game modes in a colourful toyland, as a ready-made game template.",
+      tags: ["Unity 6", "URP", "Game Template", "4 game modes"] },
     { name: "Swarm Shapeshifter Controller: Morphing Swarm Body & Form Creator", img: "card-swarm-shapeshifter.webp?v=4", id: 422438, demo: "demos/swarm-shapeshifter/", gen: "new", cat: "action", icon: "ball",
       desc: "A playable body of thousands of leaves that morphs into 18 forms, each with its own moves and ability. Hold a key to build bridges, towers and ramps, design your own forms, builds and abilities, and smash robots across two demo scenes.",
       tags: ["Unity 6", "URP", "Form Creator", "Build Creator"] },
@@ -566,6 +570,7 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
     grid.innerHTML = list.map((c) => {
       const href = c.id ? pkg(c.id) : storeUrl;
       const tag = c.gen === "new" ? '<span class="tag tag-new">New</span>' : '';
+      const soon = c.soon ? `<span class="demo-soon">Demo coming soon</span>` : "";
       const demo = c.demo ? `<a class="demo" href="${c.demo}" target="_blank" rel="noopener">Play demo<span class="vc" data-slug="${c.demo.split('/')[1]}"></span></a>` : "";
       return `<article class="card" data-cat="${c.cat}">
         ${c.img ? `<div class="card-art has-img">${tag}<img src="${c.img}" data-local="${c.local || ""}" data-icon="${c.icon}" alt="${esc(c.name)} cover image" width="420" height="280" loading="lazy"></div>` : `<div class="card-art">${tag}${ICONS[c.icon] || ""}</div>`}
@@ -574,7 +579,7 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
           <p>${esc(c.desc)}</p>
           <div class="meta">${c.tags.map((t) => `<span>${esc(t)}</span>`).join("")}</div>
           <div class="card-actions">
-            <a class="buy" href="${href}" target="_blank" rel="noopener sponsored">View on Asset Store</a>${demo}
+            <a class="buy" href="${href}" target="_blank" rel="noopener sponsored">View on Asset Store</a>${demo}${soon}
           </div>
         </div>
       </article>`;
