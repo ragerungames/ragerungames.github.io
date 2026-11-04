@@ -461,7 +461,7 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
      gen: "new" (current playbook) or "classic" (overhaul planned).
      cat: flight | ground | balance | action */
   const CONTROLLERS = [
-    { name: "Pogo Stick Controller 2.0: Bouncy Physics, Tricks & 4 Game Modes", img: "card-pogo-stick.webp", id: 418050, soon: true, gen: "new", cat: "action", icon: "ball",
+    { name: "Pogo Stick Controller 2.0: Physics Pogo, Tricks & Party Modes", img: "card-pogo-stick.webp", id: 418050, soon: true, gen: "new", cat: "action", icon: "ball",
       desc: "Bouncy pogo stick physics with big jumps, air tricks and combos, a score chase and four game modes in a colourful toyland, as a ready-made game template.",
       tags: ["Unity 6", "URP", "Game Template", "4 game modes"] },
     { name: "Swarm Shapeshifter Controller: Morphing Swarm Body & Form Creator", img: "card-swarm-shapeshifter.webp?v=4", id: 422438, demo: "demos/swarm-shapeshifter/", gen: "new", cat: "action", icon: "ball",
@@ -579,7 +579,7 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
           <p>${esc(c.desc)}</p>
           <div class="meta">${c.tags.map((t) => `<span>${esc(t)}</span>`).join("")}</div>
           <div class="card-actions">
-            <a class="buy" href="${href}" target="_blank" rel="noopener sponsored">View on Asset Store</a>${demo}${soon}
+            <a class="buy" href="${href}" target="_blank" rel="noopener sponsored" data-track="store-${c.img.replace(/^card-|\.webp.*$/g, '')}">View on Asset Store<span class="vc" data-key="store-${c.img.replace(/^card-|\.webp.*$/g, '')}"></span></a>${demo}${soon}
           </div>
         </div>
       </article>`;
@@ -601,6 +601,7 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
 
   document.getElementById("st-live").textContent = CONTROLLERS.length;
   const nDemos = CONTROLLERS.filter((c) => c.demo).length;
+  window.RR_STORE = CONTROLLERS.map((c) => "store-" + c.img.replace(/^card-|\.webp.*$/g, ""));
   window.RR_DEMOS = CONTROLLERS.filter((c) => c.demo).map((c) => c.demo.split("/")[1]);
   document.getElementById("st-demos").textContent = nDemos;
   document.getElementById("st-demos-wrap").hidden = nDemos === 0;
@@ -757,7 +758,7 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
 
   async function refresh() {
     await hitHome;
-    const keys = (window.RR_DEMOS || []).map((s) => "demo-" + s).concat("steam-wishlist");
+    const keys = (window.RR_DEMOS || []).map((s) => "demo-" + s).concat("steam-wishlist", window.RR_STORE || []);
     if (typeof counts.home !== "number") keys.push("home");
     const vals = await Promise.all(keys.map((k) => read(BASE + "/get/" + NS + "/" + k)));
     keys.forEach((k, i) => { if (vals[i] !== null) counts[k] = vals[i]; });
