@@ -110,9 +110,26 @@
   const part = (text, bg, radius) => { const s = document.createElement("span"); s.textContent = text; s.style.cssText = "display:inline-block;padding:5px 9px;background:" + bg + ";border-radius:" + radius; return s; };
   const render = (n) => { box.textContent = ""; box.append(part(SLUG + " visits", "#141a2e", "4px 0 0 4px"), part(String(n), "#f2622e", "0 4px 4px 0")); };
   fetch(BASE + "/hit/" + NS + "/demo-" + SLUG, { cache: "no-store" }).then((r) => r.json()).then((d) => { if (typeof d.value === "number") render(d.value); }).catch(() => {});
+  /* Click tracker for the "Get it on the Asset Store" button; the count shows under the same Shift + + + switch. */
+  const buy = document.querySelector("a.buy");
+  const pill = document.createElement("span");
+  pill.style.cssText = "display:none;margin-left:8px;padding:2px 7px;border-radius:99px;background:rgba(0,0,0,.3);font:600 11px ui-monospace,Menlo,Consolas,monospace";
+  let buyN = null;
+  const buyKey = "demo-store-" + SLUG;
+  const sync = () => {
+    const on = box.style.display !== "none";
+    pill.style.display = on && buyN !== null ? "inline-block" : "none";
+    if (on && buyN === null) fetch(BASE + "/get/" + NS + "/" + buyKey, { cache: "no-store" }).then((r) => (r.ok ? r.json() : { value: 0 })).then((d) => { buyN = typeof d.value === "number" ? d.value : 0; pill.textContent = "clicks " + buyN; sync(); }).catch(() => {});
+  };
+  if (buy) {
+    buy.append(pill);
+    buy.addEventListener("click", () => {
+      fetch(BASE + "/hit/" + NS + "/" + buyKey, { keepalive: true }).then((r) => r.json()).then((d) => { if (typeof d.value === "number") { buyN = d.value; pill.textContent = "clicks " + buyN; sync(); } }).catch(() => {});
+    });
+  }
   const KEY = "rr-visits-shown";
-  const show = (on) => { box.style.display = on ? "block" : "none"; try { localStorage.setItem(KEY, on ? "1" : "0"); } catch (e) {} };
-  try { if (localStorage.getItem(KEY) === "1") box.style.display = "block"; } catch (e) {}
+  const show = (on) => { box.style.display = on ? "block" : "none"; try { localStorage.setItem(KEY, on ? "1" : "0"); } catch (e) {} sync(); };
+  try { if (localStorage.getItem(KEY) === "1") box.style.display = "block"; } catch (e) {} sync();
   let taps = [];
   addEventListener("keyup", (e) => { if (e.key === "Shift") taps = []; }, true);
   addEventListener("keydown", (e) => {

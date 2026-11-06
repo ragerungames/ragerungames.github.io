@@ -761,7 +761,7 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
     const keys = (window.RR_DEMOS || []).map((s) => "demo-" + s).concat("steam-wishlist", window.RR_STORE || []);
     if (typeof counts.home !== "number") keys.push("home");
     const vals = await Promise.all(keys.map((k) => read(BASE + "/get/" + NS + "/" + k)));
-    keys.forEach((k, i) => { if (vals[i] !== null) counts[k] = vals[i]; });
+    keys.forEach((k, i) => { if (vals[i] !== null) counts[k] = vals[i]; else if (/^(store-|steam-)/.test(k)) counts[k] = 0; });
     renderTotal(); paint();
   }
 
