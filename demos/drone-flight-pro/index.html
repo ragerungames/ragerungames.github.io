@@ -83,12 +83,12 @@
     errorBox.style.display = "block";
   }
   const config = {
-    frameworkUrl: "Build/drone-flight-pro.framework.js.unityweb",
-    codeUrl: "Build/drone-flight-pro.wasm.unityweb",
+    frameworkUrl: "Build/drone-flight-pro.framework.js.unityweb?v=12",
+    codeUrl: "Build/drone-flight-pro.wasm.unityweb?v=12",
     streamingAssetsUrl: "StreamingAssets",
     companyName: "RageRun Games",
     productName: "Drone Flight Controller Pro",
-    productVersion: "1.0",
+    productVersion: "1.2",
     showBanner: showBanner,
   };
   // The data file is stored in two parts (file size limit); join them before starting.
@@ -101,10 +101,10 @@
     return URL.createObjectURL(new Blob(parts, { type: "application/octet-stream" }));
   }
   const script = document.createElement("script");
-  script.src = "Build/drone-flight-pro.loader.js";
+  script.src = "Build/drone-flight-pro.loader.js?v=12";
   script.onload = async () => {
     try {
-      config.dataUrl = await joinParts(["Build/drone-flight-pro.data.part1.unityweb", "Build/drone-flight-pro.data.part2.unityweb"]);
+      config.dataUrl = await joinParts(["Build/drone-flight-pro.data.part1.unityweb?v=12", "Build/drone-flight-pro.data.part2.unityweb?v=12"]);
     } catch (e) { showBanner(String(e.message || e), "error"); return; }
     createUnityInstance(canvas, config, (p) => {
       document.getElementById("bar").style.width = (100 * p) + "%";
