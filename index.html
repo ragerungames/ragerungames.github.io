@@ -461,6 +461,9 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
      gen: "new" (current playbook) or "classic" (overhaul planned).
      cat: flight | ground | balance | action */
   const CONTROLLERS = [
+    { name: "Silly Character Kit: Googly Eyes & Wobbly Body", img: "card-silly-character-kit.webp", id: 417970, demo: "demos/silly-character-kit/", gen: "new", cat: "action", icon: "ball",
+      desc: "Give any character googly eyes with real pupil physics, a cartoon face and a wobbly noodle body, or start from 17 ready-made body types. Moods, emotes and springy extras, with one Setup Window and a live preview.",
+      tags: ["Unity 6", "URP + Built-in", "17 body types", "Setup Window"] },
     { name: "Pogo Stick Controller 2.0: Physics Pogo, Tricks & Party Modes", img: "card-pogo-stick.webp", id: 418050, demo: "demos/pogo-stick/", gen: "new", cat: "action", icon: "ball",
       desc: "Bouncy pogo stick physics with big jumps, air tricks and combos, a score chase and four game modes in a colourful toyland, as a ready-made game template.",
       tags: ["Unity 6", "URP", "Game Template", "4 game modes"] },
@@ -494,7 +497,6 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
   ];
 
   const ROADMAP = [
-    { name: "Silly Character Kit", st: "ready", label: "Next release", desc: "Googly eyes, eyelids, wobbly bodies, moods and springy extras for any character, with a live-preview Setup Window." },
     { name: "Party Soccer Controller", st: "build", label: "Final testing", desc: "Wobbly players, ragdoll tackles and overcharged shots across seven modes, including Head Soccer. Local 1v1 and 2v2." },
     { name: "Pogo Stick Controller 2.0", st: "build", label: "Final testing", desc: "A full overhaul of the 2025 Pogostick: four game modes, local multiplayer, CPU riders and humanoid characters." },
     { name: "Log Rolling Controller", st: "build", label: "In development", desc: "Two riders on one log with coupled balance. Co-op courses, birling on water, River Rapids and Frozen Lake." },
