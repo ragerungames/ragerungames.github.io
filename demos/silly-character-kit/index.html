@@ -7,7 +7,7 @@
 <link rel="icon" href="../../favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32.png">
 <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
-<meta name="description" content="Play the Silly Character Kit demo in your browser: googly eyes with real physics, a wobbly noodle body, moods and emotes, and 17 ready-made body types. A Unity asset by RageRun Games.">
+<meta name="description" content="Play the Silly Character Kit demo in your browser: googly eyes with real physics, a wobbly noodle body, moods, comedy sounds and 17 ready-made body types. New in 1.1: pick a character, design your own in the Character Designer and play with it. A Unity asset by RageRun Games.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
@@ -59,17 +59,17 @@
   </div>
   <div class="bar-under">
     <div class="keys">
-      <span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> move</span>
-      <span><kbd>Shift</kbd> walk</span>
-      <span><kbd>Space</kbd> jump</span>
-      <span>Right mouse drag: orbit</span>
-      <span>Wheel: zoom</span>
+      <span>Menus: mouse, arrows + <kbd>Enter</kbd></span>
+      <span><kbd>Tab</kbd> next page</span>
+      <span><kbd>Q</kbd><kbd>E</kbd> turn</span>
+      <span><kbd>R</kbd> random</span>
+      <span>Play: <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> move, <kbd>Space</kbd> jump, <kbd>Shift</kbd> walk</span>
       <span><kbd>1</kbd>-<kbd>9</kbd> emotes</span>
-      <span><kbd>Tab</kbd> hide or show the panel</span>
+      <span><kbd>Backspace</kbd> back to the menu</span>
     </div>
     <button id="fs" type="button">Fullscreen</button>
   </div>
-  <p class="note">Click the game first so it gets your keys, then press START. Use the panel to try emotes, presets, colours and body sliders. Gamepads work too: press a button to connect.</p>
+  <p class="note">New in 1.1: pick a character on the select screen, press Customise to change its body, colours, hats, hair and glasses in the Character Designer, save it to My Characters, then press PLAY to try it in the playground. Click the game first so it gets your keys. Gamepads work too: press a button to connect.</p>
 </main>
 <script>
   if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) document.getElementById("mobile-note").style.display = "block";
@@ -81,17 +81,17 @@
     errorBox.style.display = "block";
   }
   const config = {
-    dataUrl: "Build/silly-character-kit.data.unityweb",
-    frameworkUrl: "Build/silly-character-kit.framework.js.unityweb",
-    codeUrl: "Build/silly-character-kit.wasm.unityweb",
+    dataUrl: "Build/silly-character-kit.data.unityweb?v=110",
+    frameworkUrl: "Build/silly-character-kit.framework.js.unityweb?v=110",
+    codeUrl: "Build/silly-character-kit.wasm.unityweb?v=110",
     streamingAssetsUrl: "StreamingAssets",
     companyName: "RageRun Games",
     productName: "Silly Character Kit",
-    productVersion: "1.0",
+    productVersion: "1.1.0",
     showBanner: showBanner,
   };
   const script = document.createElement("script");
-  script.src = "Build/silly-character-kit.loader.js";
+  script.src = "Build/silly-character-kit.loader.js?v=110";
   script.onload = () => {
     createUnityInstance(canvas, config, (p) => {
       document.getElementById("bar").style.width = (100 * p) + "%";
