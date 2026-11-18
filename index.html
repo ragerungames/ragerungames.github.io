@@ -461,10 +461,10 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
      gen: "new" (current playbook) or "classic" (overhaul planned).
      cat: flight | ground | balance | action */
   const CONTROLLERS = [
-    { name: "Morph Tool Studio: Morph Any Model Into Any Other", img: "card-morph-tool-studio.webp?v=1", id: 424006, demo: "demos/morph-tool-studio/", gen: "new", cat: "action", icon: "ball",
+    { name: "Morph Tool Studio: Morph Any Model Into Any Other", img: "card-morph-tool-studio.webp?v=1", isNew: true, id: 424006, demo: "demos/morph-tool-studio/", gen: "new", cat: "action", icon: "ball",
       desc: "Morph any model into any other with 10 transitions: Particles, Melt, Flow, Slice, Swirl, Pop, Blocks, Inflate, Beam and Shatter. Design morphs in the Morph Studio with a live timeline, let the player become any prop, and try four demo scenes including a Prop Hunt game.",
       tags: ["Unity 6", "URP", "10 transitions", "Morph Studio"] },
-    { name: "Wobbly Brawl: Party Fighting Kit", img: "card-wobbly-brawl.webp?v=1", id: 418486, demo: "demos/wobbly-brawl/", gen: "new", cat: "action", icon: "ball",
+    { name: "Wobbly Brawl: Party Fighting Kit", img: "card-wobbly-brawl.webp?v=1", isNew: true, id: 418486, demo: "demos/wobbly-brawl/", gen: "new", cat: "action", icon: "ball",
       desc: "Wobbly active-ragdoll brawlers punch, grab, carry and throw each other off the arena. Five modes, four arenas, party items and hazards, menus, CPU brawlers and local multiplayer for up to 8.",
       tags: ["Unity 6", "URP", "Local multiplayer", "5 modes"] },
     { name: "Hybrid Vehicle Controller 2: Flying Car, Drone, Stunts & AI", img: "card-hybrid-vehicle.webp?v=5", id: 418642, demo: "demos/hybrid-vehicle/", gen: "new", cat: "flight", icon: "flycar",
@@ -476,7 +476,7 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
     { name: "Drone Flight Controller Pro: Drone Physics & Drone Creator", img: "card-drone-flight-pro.webp?v=2", id: 418284, demo: "demos/drone-flight-pro/", gen: "new", cat: "flight", icon: "drone",
       desc: "Real multirotor physics with Cinematic, Sport and Acro modes, plus a one-click Arcade mode. AI drones, mouse-aimed turrets and homing missiles, a procedural Drone Creator and four demo scenes.",
       tags: ["Unity 6", "URP", "AI drones", "Combat"] },
-    { name: "AbilityForge 3D: First-Person Abilities & Throwable Weapons", img: "card-abilityforge-3d.webp?v=5", id: 418184, demo: "demos/abilityforge-3d/", gen: "new", cat: "action", icon: "ball",
+    { name: "AbilityForge 3D: First-Person Abilities & Throwable Weapons", img: "card-abilityforge-3d.webp?v=5", isNew: true, id: 418184, demo: "demos/abilityforge-3d/", gen: "new", cat: "action", icon: "ball",
       desc: "A first-person ability system built around realistic hands: 40+ ready abilities, throwable weapons you throw, recall and catch, and a no-code Ability Creator with a live 3D preview.",
       tags: ["Unity 6", "URP + Built-in", "Ability Creator", "Throwables"] },
     { name: "Fold & Fly: Paper Plane Controller With Creator", img: "card-fold-and-fly.webp?v=7", local: "https://assetstorev1-prd-cdn.unity3d.com/key-image/75e59232-e464-4dab-bf2d-619eb1cdfd71.jpg?v=1", id: 418984, demo: "demos/fold-and-fly/", gen: "new", cat: "flight", icon: "plane",
@@ -497,7 +497,7 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
     { name: "Unicycle Controller: Physics Balance & Party Game", img: "card-unicycle.webp?v=6", local: "https://assetstorev1-prd-cdn.unity3d.com/key-image/cd1a4aba-d767-4f97-9ec1-b235b54b8586.jpg?v=1", id: 418182, demo: "demos/unicycle/", gen: "new", cat: "balance", icon: "unicycle",
       desc: "A cartoon rider who has to keep pedalling to stay up, with fore-aft and sideways balance, ragdoll falls, tricks, local multiplayer, CPU riders, and High Wire and Sky Islands modes.",
       tags: ["Unity 6", "Built-in + URP", "Local multiplayer"] },
-    { name: "Silly Character Kit: Googly Eyes & Wobbly Body", img: "card-silly-character-kit.webp?v=4", id: 417970, demo: "demos/silly-character-kit/", gen: "new", cat: "action", icon: "ball",
+    { name: "Silly Character Kit: Googly Eyes & Wobbly Body", img: "card-silly-character-kit.webp?v=4", isNew: true, id: 417970, demo: "demos/silly-character-kit/", gen: "new", cat: "action", icon: "ball",
       desc: "Give any character googly eyes with real pupil physics, a cartoon face and a wobbly noodle body, or start from 17 ready-made body types. Moods, emotes and springy extras, with one Setup Window and a live preview.",
       tags: ["Unity 6", "URP + Built-in", "17 body types", "Setup Window"] }
   ];
@@ -579,7 +579,7 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
     if (!list.length) { grid.innerHTML = `<div class="empty">No assets match “${esc(query)}”. Try another word or clear the filter.</div>`; return; }
     grid.innerHTML = list.map((c) => {
       const href = c.id ? pkg(c.id) : storeUrl;
-      const tag = c.gen === "new" ? '<span class="tag tag-new">New</span>' : '';
+      const tag = c.isNew ? '<span class="tag tag-new">New</span>' : '';
       const soon = c.soon ? `<a class="demo demo-off" aria-disabled="true" tabindex="-1">Coming soon</a>` : "";
       const demo = c.demo ? `<a class="demo" href="${c.demo}" target="_blank" rel="noopener">Play demo<span class="vc" data-slug="${c.demo.split('/')[1]}"></span></a>` : "";
       return `<article class="card" data-cat="${c.cat}">
