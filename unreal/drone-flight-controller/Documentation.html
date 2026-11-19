@@ -1,0 +1,291 @@
+<!doctype html>
+<!-- Copyright RageRun Games. All Rights Reserved. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Drone Flight Controller Pro - Documentation</title>
+<style>
+:root { --bg:#191f2b; --panel:#1f2736; --card:#263042; --text:#eceff4; --sub:#9aa6ba; --accent:#ff8c2a; --line:#36435c; }
+* { box-sizing: border-box; }
+body { margin:0; background:var(--bg); color:var(--text); font:16px/1.6 "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+header { background:linear-gradient(180deg,#141a24,#1f2736); border-bottom:4px solid var(--accent); padding:52px 24px 36px; text-align:center; }
+header h1 { margin:0; font-size:38px; }
+header p { margin:8px 0 0; color:var(--sub); }
+.wrap { display:flex; max-width:1200px; margin:0 auto; }
+nav { width:250px; flex:none; padding:24px 12px; position:sticky; top:0; align-self:flex-start; max-height:100vh; overflow:auto; }
+nav a { display:block; color:var(--sub); text-decoration:none; padding:3px 8px; border-radius:4px; font-size:14px; }
+nav a:hover { color:var(--text); background:var(--card); }
+main { flex:1; min-width:0; padding:16px 20px 64px; }
+h2 { color:var(--accent); margin:44px 0 12px; font-size:26px; border-bottom:1px solid var(--line); padding-bottom:6px; }
+h3 { margin:22px 0 8px; font-size:19px; }
+table { width:100%; border-collapse:collapse; margin:12px 0; background:var(--panel); font-size:15px; }
+th, td { padding:7px 11px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; }
+th { background:var(--accent); color:#221810; }
+code, kbd { background:var(--card); border:1px solid var(--line); border-radius:4px; padding:1px 6px; font-family:Consolas, monospace; font-size:14px; }
+pre { background:var(--panel); border:1px solid var(--line); border-radius:6px; padding:12px; overflow:auto; font-size:14px; }
+.tip { background:var(--card); border-left:4px solid var(--accent); padding:12px 16px; margin:16px 0; border-radius:4px; }
+a { color:var(--accent); }
+footer { text-align:center; color:var(--sub); padding:32px 16px; border-top:1px solid var(--line); }
+@media (max-width: 820px) { nav { display:none; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Drone Flight Controller Pro</h1>
+  <p>Documentation &middot; Unreal Engine 5.8 &middot; RageRun Games</p>
+</header>
+<div class="wrap">
+<nav>
+  <a href="#overview">1. Overview</a>
+  <a href="#install">2. Installation and demos</a>
+  <a href="#pawn">3. Drone Pawn and models</a>
+  <a href="#flight">4. Flight component</a>
+  <a href="#input">5. Controls and input</a>
+  <a href="#camera">6. Drone Camera</a>
+  <a href="#ai">7. Drone AI</a>
+  <a href="#creator">8. Drone Creator</a>
+  <a href="#cinematic">9. Cinematic tools</a>
+  <a href="#delivery">10. Winch, cargo and delivery</a>
+  <a href="#combat">11. Combat</a>
+  <a href="#effects">12. Effects and surfaces</a>
+  <a href="#audio">13. Sound</a>
+  <a href="#battery">14. Battery</a>
+  <a href="#hud">15. Flight HUD</a>
+  <a href="#arcade">16. Arcade</a>
+  <a href="#world">17. Wind, race, switching and demo helpers</a>
+  <a href="#setup">18. Setup Window and Check &amp; Fix</a>
+  <a href="#scripting">19. Blueprint and C++</a>
+  <a href="#trouble">20. Troubleshooting</a>
+  <a href="#support">21. Support</a>
+</nav>
+<main>
+
+<h2 id="overview">1. Overview</h2>
+<p>The plugin is built in three layers:</p>
+<ul>
+  <li><b>Pilot</b>: who flies the drone. The player (keyboard, mouse, gamepad through Enhanced Input), Drone AI, a flight recording, or your own Blueprint calling <code>Set Pilot Input</code>.</li>
+  <li><b>Simulation</b>: the <b>Drone Flight</b> component turns stick input into motor thrust on a physics body: motors with spool-up lag, a mixer for any motor layout, drag, ground cushion, prop wash, wind and crashes.</li>
+  <li><b>Presentation</b>: cameras, HUD, sounds, propeller spin and blur, dust, sparks and smoke.</li>
+</ul>
+<h3>Components at a glance</h3>
+<table>
+<tr><th>Component / actor</th><th>Does</th></tr>
+<tr><td>Drone Flight</td><td>Flight model, modes, presets, motors, states, events</td></tr>
+<tr><td>Drone Camera</td><td>Chase, onboard (gimbal / FPV), orbit and line-of-sight cameras</td></tr>
+<tr><td>Drone Sound</td><td>Generated motor, air rush, impact, crash and landing sounds</td></tr>
+<tr><td>Drone Propellers</td><td>Spins propellers by motor speed, prop blur discs</td></tr>
+<tr><td>Drone Impact Effects / Drone Downwash / Drone Speed Trails</td><td>Sparks and smoke / ground dust and spray / motor light trails</td></tr>
+<tr><td>Drone Battery</td><td>Optional drain, sag and recharge</td></tr>
+<tr><td>Drone AI / Drone Formation</td><td>AI flying behaviours / formation flying</td></tr>
+<tr><td>Drone Winch / Drone Cargo / Drone Depot / Drone Delivery Game</td><td>Lifting and delivering cargo</td></tr>
+<tr><td>Drone Health / Drone Weapon / Drone Turret / Drone Aim / Drone Combat AI</td><td>Combat</td></tr>
+<tr><td>Drone Shot Camera / Drone Flight Recorder / Drone Camera Path / Drone Shot Sequence</td><td>Cinematic tools</td></tr>
+<tr><td>Drone Wind, Race Gate, Race Track, Waypoint Path, Windsock, Name Tag</td><td>World helpers</td></tr>
+<tr><td>Drone Arcade Pickup, Boost Ring, Float Motion, Arcade Game</td><td>Arcade mode</td></tr>
+</table>
+
+<h2 id="install">2. Installation and demos</h2>
+<p>Enable the plugin (Edit &gt; Plugins &gt; Drone Flight Controller Pro) and restart. It uses Enhanced Input and the engine's Procedural Mesh Component (both switched on automatically). The project should use Enhanced Input as its default input classes; Check &amp; Fix sets this for you.</p>
+<p>A Welcome window opens once after installing; it is always available from Tools &gt; Drone Flight Controller &gt; Welcome.</p>
+<h3>Demo maps</h3>
+<table>
+<tr><th>Map</th><th>Shows</th></tr>
+<tr><td>DemoMenu</td><td>Menu with the five demos (mouse, 1-5, A / D, Enter, gamepad A)</td></tr>
+<tr><td>DronePark</td><td>Industrial yard, 12-gate race, AI racers, wingman, crane camera, sprayer, walker filmed by a follow-me drone, patrol guard; 10 drones to switch between; P plays a cinematic demo</td></tr>
+<tr><td>DroneArcade</td><td>Floating islands, 18 rings, coins, boost rings, score and combo, AI racers and a film drone</td></tr>
+<tr><td>DroneFPVFreestyle</td><td>16 named gates through a valley, bridge, radio tower, forest corridor and bando; FPV camera</td></tr>
+<tr><td>DroneCombatArena</td><td>Fighter drone, target drones, a hunter, target boards and trucks</td></tr>
+<tr><td>DroneDelivery</td><td>Town with 9 depots (2 pick-ups, 7 drop-offs), three winch drones, an AI courier, the Delivery Game</td></tr>
+<tr><td>TestFlight</td><td>Everything in one grey-box map, including the sneak challenge, cargo yard, combat range and Creator drones</td></tr>
+</table>
+<p>In the demos Backspace returns to the menu (Esc too in a packaged game). To package the demos, add the maps to <i>Project Settings &gt; Packaging &gt; List of maps to include</i>.</p>
+<h3>Ready-made drones</h3>
+<p>Five model drones (Vanguard Pro, Falcon FPV Racer, Lifeline Rescue Quad, Parcelwing Courier, Atlas X8 Cinelifter) in <code>Drones/</code>, and eleven designed drones in <code>Drones/Creator/</code> (Camera Drone, Folding Camera, Guarded Quad, Police Drone, Recon Drone, Cinelifter, Racer Five, Cinewhoop, Cinema Octo, Heavy Lifter, Agri Sprayer).</p>
+
+<h2 id="pawn">3. Drone Pawn and models</h2>
+<ul>
+  <li><b>Drone Pawn</b>: ready to fly with a simple placeholder quad, collision box, all presentation components, player controls and HUD.</li>
+  <li><b>Drone Pawn (Custom Model)</b>: the same without the placeholder: add your model's meshes under Collision and list the motors.</li>
+  <li><b>Drone Pawn (Designed)</b>: builds its model from a Drone Design (see the Drone Creator).</li>
+</ul>
+<p><b>Create Drone Blueprint</b> (Content Browser, right-click static meshes) makes a Custom Model drone from a model: propellers found by name (prop, rotor, blade, fan, screw) or by shape, pivots at their hubs, motors with alternating spin directions (stacked pairs counter-rotate), a collision box sized to the model and cameras scaled to it. Names with Front and Back / Rear turn the model to face forward.</p>
+<p>Pawn settings: key ramp and release, stick dead zone and expo, invert pitch, keyboard layout (Gamer or Transmitter Mode 2), mouse turn, Input Config (your own Enhanced Input assets), HUD style, controls menu, drone name and drone switching.</p>
+
+<h2 id="flight">4. Flight component</h2>
+<h3>Modes</h3>
+<table>
+<tr><th>Mode</th><th>Sticks</th><th>Feel</th></tr>
+<tr><td>Cinematic</td><td>Set speed; brakes and holds position when released</td><td>Slow, smooth, precise</td></tr>
+<tr><td>Sport</td><td>Set tilt; levels itself; can hold height</td><td>Fast, leans hard</td></tr>
+<tr><td>Acro</td><td>Set rotation rates; keeps any angle</td><td>FPV racing, flips</td></tr>
+</table>
+<p>Allow Cinematic / Sport / Acro chooses which modes the player can switch to. States: Disarmed, Armed, Flying, Landed, Crashed. Auto Disarm turns the motors off after landing.</p>
+<h3>Presets</h3>
+<p>Beginner, Camera Drone, FPV Racer, Heavy Lifter, Tiny Whoop and Arcade set physics and handling in one go (Apply Preset, or Apply Preset On Start). Arcade ignores wind, ground cushion, prop wash and crashes and carves through turns.</p>
+<h3>Physics and handling</h3>
+<p>Physics: mass, thrust-to-weight, frame arm length, motor response and spin-down, idle throttle, yaw authority, top speed, rotor drag, vertical and angular drag, ground effect and its height, translational lift, prop wash, wind sensitivity, arcade, crash speed. Handling: per-mode speeds, tilts, rates, acceleration, drift brake, climb and descent speeds, Acro rates and expo, throttle expo, air mode, absolute throttle, controller strengths.</p>
+<h3>Motors</h3>
+<p>Each motor has a position, spin direction, propeller (the component to spin, by name) and spin axis. An empty list flies as an X quad. The mixer works out how hard each motor pushes for any layout (quad, hexa, octo, coaxial).</p>
+<h3>Useful calls and events</h3>
+<p>Arm, Disarm, Toggle Arm, Respawn, Respawn At, Place In Air, Set Spawn Point, Crash, Rebuild Physics, Set Thrust Scale, Set Flight Mode, Set Pilot Input; Begin Replay / Replay Step / End Replay. Readouts: state, mode, altitude, speed, climb, heading, throttle, motor RPM and power, tilt, wind, ground effect, prop wash, hover throttle, lift capacity, velocity. Events: State Changed, Flight Mode Changed, Armed, Disarmed, Takeoff, Landed, Crashed, Impact, Respawned, Teleported.</p>
+
+<h2 id="input">5. Controls and input</h2>
+<p>Every control can be rebound in game (P opens the controls menu; keys are saved). For your own Enhanced Input assets set <b>Input Config</b> on the pawn (a copy of <code>Input/DA_DroneInput</code>).</p>
+<table>
+<tr><th>Control</th><th>Keyboard / mouse</th><th>Gamepad</th></tr>
+<tr><td>Move</td><td>W A S D, arrows</td><td>Right stick</td></tr>
+<tr><td>Up / down</td><td>Space / Shift</td><td>Left stick, triggers</td></tr>
+<tr><td>Turn</td><td>Q / E</td><td>Left stick</td></tr>
+<tr><td>Flight modes</td><td>1 2 3, Tab</td><td>X</td></tr>
+<tr><td>Camera</td><td>C, right mouse, wheel</td><td>Y</td></tr>
+<tr><td>Arm / respawn</td><td>F / R</td><td>LB / B</td></tr>
+<tr><td>Switch drone / watch AI</td><td>N / O</td><td>RB</td></tr>
+<tr><td>HUD / controls menu</td><td>H / P</td><td>View / Menu</td></tr>
+<tr><td>Fire / second weapon</td><td>Left mouse, J / middle mouse, G</td><td>A / R3</td></tr>
+<tr><td>Winch down, up, release</td><td>Z, X, V</td><td>D-pad</td></tr>
+<tr><td>Cinematic shot / record / replay</td><td>B / K / L</td><td>L3</td></tr>
+</table>
+<p>Demo-only keys: T or P plays the map's flyover or cinematic demo, Backspace goes back to the demo menu.</p>
+
+<h2 id="camera">6. Drone Camera</h2>
+<ul>
+  <li><b>Chase</b>: follows behind; look-ahead, speed field of view, travel swing, cargo pull-back.</li>
+  <li><b>Onboard</b>: Auto (gimbal in Cinematic and Sport, FPV camera in Acro), Gimbal or FPV. Gimbal: tilt and zoom with right mouse and wheel, pan smoothing, horizon lock or lean, auto aim at an AI drone's subject. FPV: tilt, field of view, vibration.</li>
+  <li><b>Orbit</b>: look around the drone with the mouse, auto turn, zoom.</li>
+  <li><b>Line of sight</b>: the view of a pilot standing on the ground, with auto zoom.</li>
+</ul>
+<p>Walls are avoided, the drone body is hidden onboard, impacts shake the camera (Add Shake from Blueprint), and everything scales to the drone's size.</p>
+
+<h2 id="ai">7. Drone AI</h2>
+<p>Add a <b>Drone AI</b> component to any drone (or use the Setup Window's quick setups). The AI flies through the same flight model as a player, with obstacle avoidance, separation from other drones, minimum height, auto takeoff and respawn after crashes.</p>
+<table>
+<tr><th>Behaviour</th><th>Does</th></tr>
+<tr><td>Hover / Land / Move To</td><td>Hold position / land / fly to a point</td></tr>
+<tr><td>Follow / Orbit / Chase</td><td>Fly with, circle or chase a target</td></tr>
+<tr><td>Wander</td><td>Random points round its start</td></tr>
+<tr><td>Waypoints</td><td>Fly a Drone Waypoint Path (loop, ping-pong, once; stop and wait)</td></tr>
+<tr><td>Race</td><td>Race a Drone Race Track, braking for corners</td></tr>
+<tr><td>Follow-me</td><td>Film a person or vehicle from behind and above, hold when it stops, catch up when it runs; aims the gimbal at it</td></tr>
+<tr><td>Patrol</td><td>Fly a route, look around, spot targets in its vision cone, follow, search, give up and return; vision cone mesh, awareness</td></tr>
+</table>
+<p>Flight style Smooth (Cinematic mode) or Agile (Sport mode), speed, facing (travel direction, target, keep heading). <b>Return home</b>: with a Drone Battery, any behaviour flies home and lands to charge when low, then carries on. Events report waypoints, arrival, laps, spotting and losing targets, going home and charged.</p>
+<h3>Formations</h3>
+<p>A <b>Drone Formation</b> on a leader (or following the player's drone): 8 shapes, spacing, height, rows climbing, followers (or join nearby AI drones), follower style and speed.</p>
+<h3>Waypoint paths</h3>
+<p>Drone Waypoint Path is a spline: move points in the level, Alt-drag to add one. Tools &gt; Drone Flight Controller &gt; Create Waypoint Path places one where the viewport looks.</p>
+
+<h2 id="creator">8. Drone Creator</h2>
+<p>Tools &gt; Drone Flight Controller &gt; Drone Creator (or double-click a Drone Design asset). Steps: Start, Frame, Body, Rotors, Parts, Paint, Flight, Save, with a live 3D preview (right mouse and WASD to look around, wheel to zoom).</p>
+<table>
+<tr><th>Step</th><th>Settings</th></tr>
+<tr><td>Start</td><td>12 starters (Camera Drone, FPV Racer, Cinewhoop, Heavy Lifter, Agri Sprayer, Toy Mini, Cinema Octo, Police Drone, Cinelifter, Folding Camera, Guarded Quad, Recon Drone); Random Drone with locks for Frame, Body, Rotors, Parts, Colours and Pattern</td></tr>
+<tr><td>Frame</td><td>Layout (Quad X, Quad +, Quad Stretched, Hexa, Octo, Y6, X8), arm length, style (round tube, square beam, flat plate, curved tube), thickness, angle, height; quick sizes from Whoop 75 mm to Heavy 1.8 m</td></tr>
+<tr><td>Body</td><td>Shell, Racing Stack, Heavy Hub or Pod; size, roundness, nose taper, top cover, realistic small parts</td></tr>
+<tr><td>Rotors</td><td>Blade count, diameter (0 = as big as fits), width, root and tip pitch, tip shape, guards or ducts, motor size and height; warns when propellers would touch</td></tr>
+<tr><td>Parts</td><td>Landing gear (skids, legs, T legs), gimbal and / or FPV camera, action camera, GPS mast, antennas, battery position, cargo box or spray tank, nav lights or single-colour lights with glow</td></tr>
+<tr><td>Paint</td><td>8 palettes, colour and finish (matte, satin, gloss, metal, carbon, rubber) for 8 parts, patterns (stripes, camo, hex, checker, racing, digital) with size, angle, coverage and parts, 5 camo styles, dirt and wear</td></tr>
+<tr><td>Flight</td><td>Flight preset, automatic or manual weight, mesh detail</td></tr>
+<tr><td>Save</td><td>Name and folder: saves <code>DA_&lt;Name&gt;</code> and <code>BP_Drone_&lt;Name&gt;</code> and can place it in the level. Saving again updates both, and placed copies rebuild.</td></tr>
+</table>
+<p>The model is built from procedural meshes and painted by one material (<code>M_RRDronePaint</code>), so designs need no textures and can also be built while playing: <code>Spawn Designed Drone</code> or <code>Set Design</code> on a Drone Pawn (Designed). The Drone Creator Library has Make Starter, Apply Palette, Apply Camo Style, Randomize, Scale To Arm Length and Get Warnings.</p>
+
+<h2 id="cinematic">9. Cinematic tools</h2>
+<ul>
+  <li><b>Drone Shot Camera</b> (on every Drone Pawn): Orbit, Tracking, Reveal, Pull-back, Top-down, Fly-by, each with seconds, distance, height, speed and zoom; smoothness, hand-held wobble, auto next, cinema bars, shot names, hidden HUD, wall avoidance. B next shot, C back.</li>
+  <li><b>Drone Flight Recorder</b> (on every Drone Pawn): K records, L replays on the drone (or on the camera) with smoothing, speed and loop; Save Last Recording / Load Recording use JSON files in <code>Saved/FlightRecordings</code>. With nothing recorded, L flies a sightseeing tour.</li>
+  <li><b>Drone Camera Path</b>: a camera move along a spline at an even speed, ease in and out, look at a target or along the path or by key rotations, per-point field of view.</li>
+  <li><b>Drone Shot Sequence</b>: steps of shots, camera paths, chase camera or still camera, with captions, seconds, cuts or fades, a title, cinema bars and a skip hint. It can fly a recorded clip or the tour while it films. Play from Blueprint, on start or with a key.</li>
+</ul>
+
+<h2 id="delivery">10. Winch, cargo and delivery</h2>
+<p><b>Drone Winch</b> presets: Cargo Bay (stows the parcel tight), Rescue Winch, Parcel Tether, Long Line. Line length, reel speed, strength (snaps when overloaded), hook weight and size, auto hook, lock when raised, swing damping, colours. Z lowers, X raises, V lets go. Tension, slack and state are readable from Blueprint.</p>
+<p><b>Drone Cargo</b> actor: Parcel, Medical Kit, Food Bag, Rescue Buoy, Crate (or the Drone Cargo component on your own actor): mass, grab radius, fragile with bump speed and condition.</p>
+<p><b>Drone Depot</b>: pick-up, drop-off or both, zone size, pad and beacon. <b>Drone Delivery Game</b>: random jobs between depots with a time limit from the distance and the drone's speed, score with time bonus, condition and streak, HUD panel and callouts.</p>
+
+<h2 id="combat">11. Combat</h2>
+<ul>
+  <li><b>Drone Health</b>: team, health, regeneration, respawn delay, spawn protection, crash damage, explosion. Shot-down drones explode, tumble and come back.</li>
+  <li><b>Drone Weapon</b>: Blaster, Machine Gun, Rockets, Homing Missiles; primary or secondary trigger; fire rate, damage, speed, range, spread, explosion radius, homing, magazine and reload, recoil; fires from the nose or a turret.</li>
+  <li><b>Drone Turret</b>: Gun Turret (optional missile rails), Missile Pod, Nose Cannon; mount below, on top, at the nose or the sides; turn speed and limits.</li>
+  <li><b>Drone Aim</b>: crosshair moved by the mouse (screen centre on a gamepad), aim assist, missile lock-on, hit and kill markers.</li>
+  <li><b>Drone Combat AI</b>: finds enemies in sight range, strafes round them, fires when it can hit, second weapon every few seconds.</li>
+</ul>
+<p>The <b>Drone Combat Setup</b> library sets it all up: Make Player Fighter, Make Enemy, Make Practice Target, Add Weapon, Add Turret. Any actor with Drone Health (a target board, a truck) can be shot.</p>
+
+<h2 id="effects">12. Effects and surfaces</h2>
+<p>Propeller spin and blur (opacity, start, blades hidden at speed, tint), ground downwash per surface (dust, concrete, grass, sand, water spray, snow; set by Physical Material, a Drone Surface component or tags), impact sparks and crash smoke, speed trails from the motors. No particle systems are needed: effects are instanced cards.</p>
+
+<h2 id="audio">13. Sound</h2>
+<p>The Drone Sound component generates the motor (pitch follows RPM and drone size), whine, air rush at speed, prop wash rumble, impact, crash and landing sounds and arming beeps, so no sound files are needed. Master, motor and impact volumes, distance fade, and custom sound slots for your own sounds.</p>
+
+<h2 id="battery">14. Battery</h2>
+<p>Drone Battery: hover minutes, drain grows with motor load, voltage sag when low (at empty it can only descend), recharge while disarmed, refill on respawn, infinite. On Low (20% by default) and On Empty events; shown on the HUD.</p>
+
+<h2 id="hud">15. Flight HUD</h2>
+<p>Compass and heading, speed and height dials with units, climb, flight mode and state, power with the hover mark, per-motor bars, battery, wind, artificial horizon (overlay in the onboard view), physics hints, callouts (Show Callout from Blueprint), race, delivery, sneak, combat and arcade panels, name tags, cinematic bars and titles, key hints. Style: scale, horizon, units, colours and which parts show. H hides the HUD.</p>
+
+<h2 id="arcade">16. Arcade</h2>
+<table>
+<tr><th>Actor</th><th>Does</th></tr>
+<tr><td>Drone Arcade Pickup</td><td>Spinning coin: points, comes back after a while</td></tr>
+<tr><td>Drone Boost Ring</td><td>Fly through the way it faces for a burst of speed</td></tr>
+<tr><td>Drone Float Motion</td><td>Bobs, sways and spins its actor (floating rocks, clouds)</td></tr>
+<tr><td>Drone Arcade Game</td><td>Score for rings, boosts, coins (with a combo up to x5), shot-down drones and laps; score card on the HUD</td></tr>
+</table>
+<p>Use the Arcade flight preset on the player's drone for the arcade feel.</p>
+
+<h2 id="world">17. Wind, race, switching and demo helpers</h2>
+<ul>
+  <li><b>Drone Wind</b>: speed, gusts, gust frequency, turbulence, full strength height; direction = the actor's rotation. Get Wind At for your own effects.</li>
+  <li><b>Drone Race Gate</b> and <b>Drone Race Track</b>: list gates in order (the first is start and finish), laps, last and best lap, next-gate glow, either-direction gates; events for gates and laps.</li>
+  <li><b>Drone switching</b> is built into the Drone Pawn: N switches between drones that allow it, O watches the AI drones.</li>
+  <li><b>Drone Windsock</b>, <b>Drone Name Tag</b> (name and a short line above a drone or place), <b>Drone Demo Walker</b> (a walking figure for follow-me), <b>Drone Sneak Challenge</b>, <b>Drone Demo Menu</b> and <b>Drone Demo Navigation</b>.</li>
+</ul>
+
+<h2 id="setup">18. Setup Window and Check &amp; Fix</h2>
+<p>Tools &gt; Drone Flight Controller &gt; Setup Window (or the Drone Setup toolbar button). Pages: Overview (drone gallery, make a model a drone, Drone Creator), Drone, Controls, Camera, AI Drones, Combat, Delivery, Effects, Audio, Battery, Scene, Check &amp; Fix, About. Pick a drone under <i>Editing</i> or by selecting it in the level. Every button can be undone.</p>
+<p><b>Check &amp; Fix</b> looks for setup problems once a second: collision, motors and propellers, drones nothing flies, player drones, AI targets and paths, waypoints inside walls, flight styles, battery levels, patrol targets, formations, winch lengths, cargo, delivery depots and cargo, wind, physics substepping and Enhanced Input. Each row has a Fix button; Fix All runs the fixes that need no decision.</p>
+
+<h2 id="scripting">19. Blueprint and C++</h2>
+<p>Everything above is available in Blueprint. Classes start with <code>RR</code> in C++ (for example <code>ARRDronePawn</code>, <code>URRDroneFlightComponent</code>, <code>URRDroneAIComponent</code>).</p>
+<pre>// Fly a drone from code (no player controls)
+Drone->GetFlight()->SetPilotInput(FRRDroneInput{ /*Throttle*/ 0.2f, /*Yaw*/ 0.f, /*Pitch*/ 0.5f, /*Roll*/ 0.f });
+
+// Make an AI drone follow the player
+URRDroneAIComponent* AI = Drone->FindComponentByClass&lt;URRDroneAIComponent&gt;();
+AI->Follow(PlayerDrone, FVector(-300.0, 350.0, 120.0));
+
+// Build a random designed drone while playing
+FRRDroneDesign Design = URRDroneDesignLibrary::MakeStarter(ERRDroneStarter::FPVRacer);
+URRDroneDesignLibrary::Randomize(Design, 42, 0);
+ARRDroneDesignPawn::SpawnDesignedDrone(this, Design, SpawnTransform, true);
+
+// Give a drone weapons
+URRDroneCombatLibrary::MakePlayerFighter(Drone, true);</pre>
+<p>Editor scripting: Drone Editor functions Create Drone Blueprint, Create Designed Drone Blueprint, Create Input Assets, Open Setup Window, Get Setup Problems, Fix All Setup Problems, Open Drone Creator.</p>
+
+<h2 id="trouble">20. Troubleshooting</h2>
+<table>
+<tr><th>Problem</th><th>Fix</th></tr>
+<tr><td>The drone does not take off</td><td>Hold Space (or push the left stick up); F turns the motors on. A Battery at 0% can only descend.</td></tr>
+<tr><td>Keys do nothing</td><td>Check &amp; Fix &gt; Use Enhanced Input; make sure the drone is possessed (Auto Possess Player, or Make It the Player Drone).</td></tr>
+<tr><td>My model's propellers do not spin</td><td>Find Propellers Again (Setup Window &gt; Drone) or name the parts Prop1, Prop2...; import with Combine Meshes off.</td></tr>
+<tr><td>The drone wobbles going down</td><td>That is prop wash: descend while moving sideways, or lower Prop Wash in Physics.</td></tr>
+<tr><td>Flight feels different at low frame rates</td><td>Turn on physics substepping (Setup Window &gt; Scene, or Check &amp; Fix).</td></tr>
+<tr><td>An AI drone just hovers</td><td>It needs a target or a path: Check &amp; Fix lists it with a fix.</td></tr>
+<tr><td>Demo maps missing in a packaged game</td><td>Add them to the maps to include in Project Settings &gt; Packaging.</td></tr>
+</table>
+
+<h2 id="support">21. Support</h2>
+<p>Something not working, or an idea? Please tell us first: we usually answer within a day.</p>
+<ul>
+  <li>E-mail: <a href="mailto:ragerungames@gmail.com">ragerungames@gmail.com</a></li>
+  <li>Discord: <a href="https://discord.gg/kj8D8kwttZ">discord.gg/kj8D8kwttZ</a></li>
+  <li>Website: <a href="https://ragerungames.github.io">ragerungames.github.io</a></li>
+</ul>
+</main>
+</div>
+<footer>Drone Flight Controller Pro &middot; RageRun Games</footer>
+</body>
+</html>

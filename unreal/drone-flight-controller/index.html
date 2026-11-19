@@ -1,0 +1,162 @@
+<!doctype html>
+<!-- Copyright RageRun Games. All Rights Reserved. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Drone Flight Controller Pro - Quick Start</title>
+<style>
+:root { --bg:#191f2b; --panel:#1f2736; --card:#263042; --text:#eceff4; --sub:#9aa6ba; --accent:#ff8c2a; --line:#36435c; }
+* { box-sizing: border-box; }
+body { margin:0; background:var(--bg); color:var(--text); font:16px/1.6 "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+header { background:linear-gradient(180deg,#141a24,#1f2736); border-bottom:4px solid var(--accent); padding:56px 24px 40px; text-align:center; }
+header h1 { margin:0; font-size:40px; letter-spacing:.5px; }
+header p { margin:8px 0 0; color:var(--sub); font-size:18px; }
+main { max-width:920px; margin:0 auto; padding:24px 16px 64px; }
+h2 { color:var(--accent); margin:44px 0 12px; font-size:26px; border-bottom:1px solid var(--line); padding-bottom:6px; }
+h3 { margin:24px 0 8px; font-size:19px; }
+table { width:100%; border-collapse:collapse; margin:12px 0; background:var(--panel); }
+th, td { padding:8px 12px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; }
+th { background:var(--accent); color:#221810; }
+code, kbd { background:var(--card); border:1px solid var(--line); border-radius:4px; padding:1px 6px; font-family:Consolas, monospace; font-size:14px; }
+.tip { background:var(--card); border-left:4px solid var(--accent); padding:12px 16px; margin:16px 0; border-radius:4px; }
+.cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; }
+.card { background:var(--card); border-radius:8px; padding:16px; }
+.card b { color:var(--accent); }
+a { color:var(--accent); }
+ol li, ul li { margin:4px 0; }
+footer { text-align:center; color:var(--sub); padding:32px 16px; border-top:1px solid var(--line); }
+</style>
+</head>
+<body>
+<header>
+  <h1>Drone Flight Controller Pro</h1>
+  <p>Quick Start &middot; Fly in five minutes &middot; Unreal Engine 5.8</p>
+</header>
+<main>
+
+<h2>1. Welcome</h2>
+<p>Drone Flight Controller Pro flies quad, hexa and octo drones with real thrust and torque, momentum, wind, ground cushion and prop wash, yet stays friendly for beginners. Everything is plain C++ with Blueprint access, and every setting has a tooltip.</p>
+<h3>In the box</h3>
+<ul>
+  <li>Three flight modes (Cinematic, Sport, Acro) plus an Arcade preset, six handling presets, battery and wind.</li>
+  <li>Drone AI: hover, follow, orbit, chase, wander, waypoints, racing, follow-me filming, patrol with vision cones, formations, return home to charge.</li>
+  <li>Winch, cargo, depots and a delivery game; combat with turrets, four weapons, lock-on and fighting AI.</li>
+  <li>Cinematic tools: six automatic camera shots, flight recorder and replay, camera paths and shot sequences.</li>
+  <li>Drone Creator: design your own drone (12 starters, 8 palettes, camo, patterns, dirt and wear) and save it as a ready-to-fly Blueprint.</li>
+  <li>Flight HUD, four drone cameras with a gimbal, generated motor and impact sounds, prop blur, downwash dust, sparks, smoke and speed trails.</li>
+  <li>Setup Window with Check &amp; Fix, 5 model drones, 11 designed drones, 6 demo maps.</li>
+</ul>
+<h3>Where things are</h3>
+<table>
+<tr><th>What</th><th>Where</th></tr>
+<tr><td>Demo maps</td><td><code>DroneFlightController Content/Maps</code> (start with <b>DemoMenu</b>)</td></tr>
+<tr><td>Ready-made drones</td><td><code>Drones/</code> (model drones) and <code>Drones/Creator/</code> (designed drones)</td></tr>
+<tr><td>Tools</td><td><b>Tools &gt; Drone Flight Controller</b> and the <b>Drone Setup</b> toolbar button</td></tr>
+<tr><td>Input assets</td><td><code>Input/DA_DroneInput</code> (Enhanced Input actions and mapping context)</td></tr>
+<tr><td>Main classes</td><td>Drone Pawn, Drone Pawn (Custom Model), Drone Pawn (Designed), Drone Flight component</td></tr>
+</table>
+<div class="tip"><b>Tip:</b> the fastest way in is the Setup Window: Tools &gt; Drone Flight Controller &gt; Setup Window.</div>
+
+<h2>2. Fly the demo</h2>
+<p>Open <b>Maps/DemoMenu</b> and press Play. Pick a demo with the mouse, 1-5 or A / D, then Enter. Backspace returns to the menu.</p>
+<div class="cards">
+  <div class="card"><b>Drone Park</b><br>Free flight and a gate race around an industrial yard; AI racers, a wingman, a patrol guard and a follow-me camera filming a walker.</div>
+  <div class="card"><b>Arcade</b><br>Floating islands, coins, boost rings and an 18-ring course. Chain coins for a combo.</div>
+  <div class="card"><b>FPV Freestyle</b><br>16 gates through a river valley, under a bridge, up a radio tower and through a bando.</div>
+  <div class="card"><b>Combat Arena</b><br>A fighter drone with a gun turret, blaster and homing missiles against targets and a hunter.</div>
+  <div class="card"><b>Delivery</b><br>Winch cargo from the warehouse to rooftops against the clock.</div>
+  <div class="card"><b>Test Flight</b><br>Every feature in one map: showrooms, AI, sneak challenge, cargo yard, combat range, Creator drones.</div>
+</div>
+<h3>Keyboard and mouse</h3>
+<table>
+<tr><th>Key</th><th>Does</th></tr>
+<tr><td><kbd>W</kbd> <kbd>S</kbd> / <kbd>A</kbd> <kbd>D</kbd></td><td>Forward and back / left and right (arrow keys too)</td></tr>
+<tr><td><kbd>Space</kbd> / <kbd>Shift</kbd></td><td>Up / down</td></tr>
+<tr><td><kbd>Q</kbd> <kbd>E</kbd></td><td>Turn</td></tr>
+<tr><td><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> or <kbd>Tab</kbd></td><td>Cinematic, Sport, Acro / next mode</td></tr>
+<tr><td><kbd>C</kbd></td><td>Next camera (chase, onboard, orbit, line of sight)</td></tr>
+<tr><td>Right mouse + move, wheel</td><td>Look around (orbit) or tilt the gimbal; zoom</td></tr>
+<tr><td><kbd>F</kbd> / <kbd>R</kbd></td><td>Motors on and off / respawn</td></tr>
+<tr><td><kbd>N</kbd> / <kbd>O</kbd></td><td>Switch drone / watch the AI drones</td></tr>
+<tr><td><kbd>H</kbd> / <kbd>P</kbd></td><td>Show or hide the HUD / controls menu (change keys)</td></tr>
+<tr><td>Left / middle mouse (<kbd>J</kbd> / <kbd>G</kbd>)</td><td>Fire / second weapon</td></tr>
+<tr><td><kbd>Z</kbd> <kbd>X</kbd> <kbd>V</kbd></td><td>Winch down, up, release cargo</td></tr>
+<tr><td><kbd>B</kbd></td><td>Next cinematic shot (C goes back)</td></tr>
+<tr><td><kbd>K</kbd> / <kbd>L</kbd></td><td>Record the flight / replay it (with nothing recorded: a sightseeing tour)</td></tr>
+<tr><td><kbd>T</kbd> / <kbd>P</kbd> in demos</td><td>Play the flyover or cinematic demo; <kbd>Backspace</kbd> back to the menu</td></tr>
+</table>
+
+<h2>3. Gamepad (Mode 2)</h2>
+<table>
+<tr><th>Input</th><th>Does</th></tr>
+<tr><td>Left stick</td><td>Throttle (up / down) and turn</td></tr>
+<tr><td>Right stick</td><td>Forward, back, left, right</td></tr>
+<tr><td>Triggers</td><td>Up / down</td></tr>
+<tr><td>A / B / X / Y</td><td>Fire / respawn / next flight mode / next camera</td></tr>
+<tr><td>LB / RB</td><td>Motors on and off / switch drone</td></tr>
+<tr><td>L3 / R3</td><td>Next cinematic shot / second weapon</td></tr>
+<tr><td>D-pad</td><td>Winch (up, down, left = release)</td></tr>
+<tr><td>Menu / View</td><td>Controls menu / HUD</td></tr>
+</table>
+<div class="tip"><b>Tip:</b> push up to take off. Fly through the glowing start gate to race the AI.</div>
+
+<h2>4. The three flight modes</h2>
+<div class="cards">
+  <div class="card"><b>Cinematic (1)</b><br>The sticks set speed; let go and it brakes and holds position. Smooth and slow, like a camera drone.</div>
+  <div class="card"><b>Sport (2)</b><br>The sticks set the tilt; it levels itself and holds its height. Fast.</div>
+  <div class="card"><b>Acro (3)</b><br>The sticks set rotation rates; it keeps any angle. Flips and rolls, like an FPV racer.</div>
+</div>
+<h3>Real-world effects</h3>
+<ul>
+  <li><b>Prop wash</b>: dropping straight down through your own air makes the drone wobble; move sideways while descending.</li>
+  <li><b>Ground cushion</b>: near the ground the drone floats on its own air.</li>
+  <li><b>Wind</b>: gusts push the drone around (check the windsock).</li>
+  <li><b>Crashes</b>: hit something hard and the motors stop; press R to respawn.</li>
+</ul>
+
+<h2>5. Add a drone to your level</h2>
+<ol>
+  <li>Open the Setup Window (Tools &gt; Drone Flight Controller &gt; Setup Window).</li>
+  <li><b>Overview</b>: click a drone to place it where the viewport looks, or drag it into the viewport.</li>
+  <li><b>Drone</b>: pick a preset (Beginner, Camera Drone, FPV Racer, Heavy Lifter, Tiny Whoop, Arcade).</li>
+  <li><b>Check &amp; Fix</b>: click <b>Fix All</b>, then press Play.</li>
+</ol>
+<h3>Your own model</h3>
+<p>Import the model with <i>Combine Meshes</i> off so each propeller is its own mesh. Select the meshes in the Content Browser and choose <b>Create Drone Blueprint</b> (right-click) or <b>Make Selected Model a Drone</b> (Tools menu). Propellers are found by name (prop, rotor, blade, fan) or by shape, and get motors and spin directions.</p>
+
+<h2>6. Make your own drone</h2>
+<ol>
+  <li>Open <b>Tools &gt; Drone Flight Controller &gt; Drone Creator</b>.</li>
+  <li><b>Start</b>: pick one of 12 starters or roll a Random Drone (tick parts to keep).</li>
+  <li><b>Frame, Body, Rotors, Parts</b>: shape it; quick size buttons scale the whole drone from a 75 mm whoop to a 1.8 m heavy lifter.</li>
+  <li><b>Paint</b>: palettes, camo styles (Woodland, Desert, Urban, Arctic, Night), patterns, dirt and wear.</li>
+  <li><b>Flight</b>: how it flies and how heavy it is.</li>
+  <li><b>Save</b>: you get <code>DA_&lt;Name&gt;</code> (the design) and <code>BP_Drone_&lt;Name&gt;</code> (a ready-to-fly drone). Double-click a design to edit it again.</li>
+</ol>
+
+<h2>7. Add combat in two clicks</h2>
+<ol>
+  <li>Pick your drone in the Setup Window, open <b>Combat</b>, click <b>Player Fighter</b>.</li>
+  <li>Pick another drone, click <b>Enemy</b> or <b>Practice Target</b>. Press Play.</li>
+</ol>
+<p>The crosshair follows the mouse and the turret follows the crosshair. Hold the crosshair on an enemy until <b>LOCKED</b> for homing missiles. Shots allow for your own speed, so strafing still hits.</p>
+
+<h2>8. Deliver, film and patrol</h2>
+<ul>
+  <li><b>Deliver</b>: add a Winch (Setup Window &gt; Delivery), lower the hook with Z onto cargo, raise with X, let go with V. Depots and the Delivery Game turn it into timed jobs.</li>
+  <li><b>Film</b>: B plays cinematic shots, C onboard gives the gimbal, K / L record and replay, Shot Sequences play whole edits with titles and fades.</li>
+  <li><b>AI</b>: AI Drones page &gt; quick setups (Follow-me Cam, Patrol Guard, Formation Wing, Racer, Orbit Cam, Wanderer). O in game watches them.</li>
+</ul>
+
+<h2>Next steps and support</h2>
+<p>Read the full <a href="Documentation.html">Documentation</a> for every component and setting. Stuck or have an idea? We usually answer within a day.</p>
+<ul>
+  <li>E-mail: <a href="mailto:ragerungames@gmail.com">ragerungames@gmail.com</a></li>
+  <li>Discord: <a href="https://discord.gg/kj8D8kwttZ">discord.gg/kj8D8kwttZ</a></li>
+  <li>Website: <a href="https://ragerungames.github.io">ragerungames.github.io</a></li>
+</ul>
+</main>
+<footer>Drone Flight Controller Pro &middot; RageRun Games</footer>
+</body>
+</html>
