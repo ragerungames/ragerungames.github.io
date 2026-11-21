@@ -32,7 +32,7 @@ window.RR_CATALOG = {
     { slug: "bmx-trick", name: "BMX Trick Controller: Physics BMX, Tricks & Park Builder", short: "BMX Trick Controller",
       blurb: "Physics BMX with flips, barspins, peg grinds and a Park Builder.",
       tags: ["Bike Creator", "Park Builder"], price: 24.99, sale: { price: 12.49, ends: "2026-12-03" },
-      released: "2026-11-26", live: "2026-11-26", cat: "ground", creator: false, id: null, img: null, demo: null, icon: "bike" },
+      released: "2026-11-26", live: "2026-11-26", cat: "ground", creator: false, id: null, img: null, demo: "demos/bmx-trick/", icon: "bike" },
 
     { slug: "morph-tool-studio", name: "Morph Tool Studio: Morph Any Model Into Any Other", short: "Morph Tool Studio",
       blurb: "Morph any model into any other with 10 transitions.",
