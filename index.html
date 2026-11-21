@@ -288,6 +288,38 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
 .rr-badge .l { background: #141a2e; color: #fff; padding: 4px 9px; }
 .rr-badge .r { background: #f2622e; color: #fff; padding: 4px 9px; }
 .rr-sub { margin-left: 10px; font-family: var(--f-mono); font-size: 12px; color: var(--muted); vertical-align: middle; }
+
+/* ---- QOL round 1 (Nov 2026): compact cards, sale badge, featured strip ---- */
+.card-art { height: auto; aspect-ratio: 3 / 2; }
+.card-art.has-img .tag { left: 10px; right: auto; }
+.card-art .tag-sale, .card-art.has-img .tag-sale { left: auto; right: 10px; }
+.tag-sale { background: var(--good); color: #fff; z-index: 1; }
+.card-body { padding: 14px 16px 16px; gap: 8px; }
+.card h3 { font-size: 17px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card p.blurb { font-size: 14px; line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 2.9em; }
+.card .meta { margin-top: 0; padding-top: 0; flex-wrap: nowrap; overflow: hidden; }
+.card .meta span { white-space: nowrap; flex: none; }
+.price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; margin-top: auto; padding-top: 4px; font-variant-numeric: tabular-nums; }
+.price b { font-size: 20px; font-weight: 700; }
+.price s { color: var(--muted); font-size: 14px; }
+.price .off { font-family: var(--f-mono); font-size: 11px; font-weight: 600; color: #fff; background: var(--good); padding: 3px 7px; border-radius: 6px; align-self: center; white-space: nowrap; }
+.meta .m-new { background: var(--orange); border-color: var(--orange); color: #fff; font-weight: 600; }
+.grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+.chip-sep { width: 1px; align-self: stretch; background: var(--line); margin: 4px 2px; }
+.feat { border-bottom: 1px solid var(--line); background: linear-gradient(90deg, var(--orange-soft), var(--surface) 70%); }
+.feat .wrap { display: flex; align-items: center; gap: 18px; padding-block: 12px; flex-wrap: wrap; }
+.feat-art { position: relative; width: 138px; aspect-ratio: 3 / 2; border-radius: 10px; overflow: hidden; flex: none; display: grid; place-items: center; color: var(--orange); border: 1px solid var(--line);
+  background: linear-gradient(var(--grid) 1px, transparent 1px) 0 0 / 12px 12px, linear-gradient(90deg, var(--grid) 1px, transparent 1px) 0 0 / 12px 12px, var(--surface); }
+.feat-art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.feat-art svg { width: 52px; height: 52px; }
+.feat-text { flex: 1 1 240px; min-width: 0; }
+.feat-text h2 { font-family: var(--f-display); font-weight: 400; font-size: 22px; line-height: 1.15; margin-top: 2px; }
+.feat-text h2 a { color: inherit; text-decoration: none; }
+.feat-text p { color: var(--muted); font-size: 15px; }
+.feat-buy { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.feat-buy .price { margin: 0; padding: 0; }
+.feat-buy .btn { padding: 10px 16px; font-size: 14px; }
+@media (max-width: 640px) { .feat-art { width: 96px; } .feat-text h2 { font-size: 19px; } }
 </style>
 </head>
 <body>
@@ -308,6 +340,8 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
     </nav>
   </div>
 </header>
+
+<aside class="feat" id="feat" aria-label="Featured release" hidden></aside>
 
 <main id="top">
   <div class="hero">
@@ -345,7 +379,7 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
           <div class="eyebrow">Portfolio</div>
           <h2>Every asset, in one place</h2>
         </div>
-        <p>Every asset listed here is live on the Unity Asset Store. Older assets are being rebuilt from scratch and will return as new releases.</p>
+        <p>Every asset listed here is live on the Unity Asset Store. Filter by type, find what is on sale, or try a web demo first.</p>
       </div>
       <div class="toolbar">
         <div class="chips" id="chips" role="group" aria-label="Filter by type"></div>
@@ -451,59 +485,18 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
   </div>
 </footer>
 
+<script src="assets/catalog.js"></script>
 <script>
 (() => {
-  /* ---------- Affiliate setup: edit here ---------- */
+  /* ---------- Affiliate setup ---------- */
   const AID = "1101l3IyVT";
   const PUBLISHER = "https://assetstore.unity.com/publishers/68658";
   const aff = (url) => url + (url.includes("?") ? "&" : "?") + "aid=" + AID;
   const pkg = (id) => aff("https://assetstore.unity.com/packages/slug/" + id);
+  const storeUrl = aff(PUBLISHER);
 
-  /* ---------- Controllers: replace or add entries as overhauls ship ----------
-     id: Asset Store package number (from the package URL). null = links to the publisher page until you add it.
-     gen: "new" (current playbook) or "classic" (overhaul planned).
-     cat: flight | ground | balance | action */
-  const CONTROLLERS = [
-    { name: "Morph Tool Studio: Morph Any Model Into Any Other", img: "card-morph-tool-studio.webp?v=1", isNew: true, id: 424006, demo: "demos/morph-tool-studio/", gen: "new", cat: "action", icon: "ball",
-      desc: "Morph any model into any other with 10 transitions: Particles, Melt, Flow, Slice, Swirl, Pop, Blocks, Inflate, Beam and Shatter. Design morphs in the Morph Studio with a live timeline, let the player become any prop, and try four demo scenes including a Prop Hunt game.",
-      tags: ["Unity 6", "URP", "10 transitions", "Morph Studio"] },
-    { name: "Wobbly Brawl: Party Fighting Kit", img: "card-wobbly-brawl.webp?v=1", isNew: true, id: 418486, demo: "demos/wobbly-brawl/", gen: "new", cat: "action", icon: "ball",
-      desc: "Wobbly active-ragdoll brawlers punch, grab, carry and throw each other off the arena. Five modes, four arenas, party items and hazards, menus, CPU brawlers and local multiplayer for up to 8.",
-      tags: ["Unity 6", "URP", "Local multiplayer", "5 modes"] },
-    { name: "Hybrid Vehicle Controller 2: Flying Car, Drone, Stunts & AI", img: "card-hybrid-vehicle.webp?v=5", id: 418642, demo: "demos/hybrid-vehicle/", gen: "new", cat: "flight", icon: "flycar",
-      desc: "A car that drives like a real car, folds its wheels into fans and flies like a drone. Realistic tyres and gearbox, Hover, Sport and Acro flight, stunts with combos, AI racers and a canyon stunt park.",
-      tags: ["Unity 6", "URP", "AI racers"] },
-    { name: "Pro Skate Controller: Skateboarding Physics, Tricks & Park Builder", img: "card-pro-skate.webp?v=5", local: "https://assetstorev1-prd-cdn.unity3d.com/key-image/1b5c9b09-05c5-4dc3-9273-8eb31ea14f81.jpg?v=1", id: 419320, demo: "demos/pro-skate/", gen: "new", cat: "ground", icon: "skate",
-      desc: "Physics skateboarding with flick-stick tricks, grinds, manuals, lip tricks and reverts, a procedural IK skater who can step off and walk with the board, a Skateboard Creator and a Park Builder.",
-      tags: ["Unity 6","URP + Built-in","Skateboard Creator"] },
-    { name: "Drone Flight Controller Pro: Drone Physics & Drone Creator", img: "card-drone-flight-pro.webp?v=2", id: 418284, demo: "demos/drone-flight-pro/", gen: "new", cat: "flight", icon: "drone",
-      desc: "Real multirotor physics with Cinematic, Sport and Acro modes, plus a one-click Arcade mode. AI drones, mouse-aimed turrets and homing missiles, a procedural Drone Creator and four demo scenes.",
-      tags: ["Unity 6", "URP", "AI drones", "Combat"] },
-    { name: "AbilityForge 3D: First-Person Abilities & Throwable Weapons", img: "card-abilityforge-3d.webp?v=5", isNew: true, id: 418184, demo: "demos/abilityforge-3d/", gen: "new", cat: "action", icon: "ball",
-      desc: "A first-person ability system built around realistic hands: 40+ ready abilities, throwable weapons you throw, recall and catch, and a no-code Ability Creator with a live 3D preview.",
-      tags: ["Unity 6", "URP + Built-in", "Ability Creator", "Throwables"] },
-    { name: "Fold & Fly: Paper Plane Controller With Creator", img: "card-fold-and-fly.webp?v=7", local: "https://assetstorev1-prd-cdn.unity3d.com/key-image/75e59232-e464-4dab-bf2d-619eb1cdfd71.jpg?v=1", id: 418984, demo: "demos/fold-and-fly/", gen: "new", cat: "flight", icon: "plane",
-      desc: "Fold it, throw it, fly it. A physics paper plane with Arcade and Glide flight, a Paper Plane Creator, tricks and crumpling crashes, wind and updrafts, three game modes, touch controls and six demo scenes.",
-      tags: ["Unity 6", "URP", "Mobile + touch"] },
-    { name: "Ball Balance Controller: Rolling Ball Physics & Party Game", img: "card-ball-balance.webp?v=6", local: "https://assetstorev1-prd-cdn.unity3d.com/key-image/c21efb35-bd57-4121-a2bc-3e166b6ff1cd.jpg?v=1", id: 417744, demo: "demos/ball-balance/", gen: "new", cat: "balance", icon: "ball",
-      desc: "A cartoon rider balancing on a giant rolling ball with a real balance model, ragdoll falls and googly eyes. Includes 11 ready-made games, AI riders and a no-code level designer.",
-      tags: ["Unity 6", "Built-in + URP", "11 games"] },
-    { name: "Swarm Shapeshifter Controller: Morphing Swarm Body & Form Creator", img: "card-swarm-shapeshifter.webp?v=7", id: 422438, demo: "demos/swarm-shapeshifter/", gen: "new", cat: "action", icon: "ball",
-      desc: "A playable body of thousands of leaves that morphs into 18 forms, each with its own moves and ability. Hold a key to build bridges, towers and ramps, design your own forms, builds and abilities, and smash robots across two demo scenes.",
-      tags: ["Unity 6", "URP", "Form Creator", "Build Creator"] },
-    { name: "Pogo Stick Controller 2.0: Physics Pogo, Tricks & Party Modes", img: "card-pogo-stick.webp?v=5", id: 418050, demo: "demos/pogo-stick/", gen: "new", cat: "action", icon: "ball",
-      desc: "Bouncy pogo stick physics with big jumps, air tricks and combos, a score chase and four game modes in a colourful toyland, as a ready-made game template.",
-      tags: ["Unity 6", "URP", "Game Template", "4 game modes"] },
-    { name: "Roller Skate Controller: Physics Inline Skating Kit", img: "card-roller-skate.webp?v=7", local: "https://assetstorev1-prd-cdn.unity3d.com/key-image/3239068b-2bae-48f8-a6da-6804c88f33fb.png?v=1", id: 417478, demo: "demos/roller-skate/", gen: "new", cat: "ground", icon: "skate",
-      desc: "Physics inline skating with a procedural IK body: grinds in 10 stances, powerslides, rolls, flips and wall rides. Design your own skates in the Skate Creator, go silly with the googly-eyed Silly Skater, and play three demo parks.",
-      tags: ["Unity 6", "URP + Built-in", "Skate Creator"] },
-    { name: "Unicycle Controller: Physics Balance & Party Game", img: "card-unicycle.webp?v=6", local: "https://assetstorev1-prd-cdn.unity3d.com/key-image/cd1a4aba-d767-4f97-9ec1-b235b54b8586.jpg?v=1", id: 418182, demo: "demos/unicycle/", gen: "new", cat: "balance", icon: "unicycle",
-      desc: "A cartoon rider who has to keep pedalling to stay up, with fore-aft and sideways balance, ragdoll falls, tricks, local multiplayer, CPU riders, and High Wire and Sky Islands modes.",
-      tags: ["Unity 6", "Built-in + URP", "Local multiplayer"] },
-    { name: "Silly Character Kit: Googly Eyes & Wobbly Body", img: "card-silly-character-kit.webp?v=4", isNew: true, id: 417970, demo: "demos/silly-character-kit/", gen: "new", cat: "action", icon: "ball",
-      desc: "Give any character googly eyes with real pupil physics, a cartoon face and a wobbly noodle body, or start from 17 ready-made body types. Moods, emotes and springy extras, with one Setup Window and a live preview.",
-      tags: ["Unity 6", "URP + Built-in", "17 body types", "Setup Window"] }
-  ];
+  /* ---------- Assets live in assets/catalog.js (edit that file, not this one) ---------- */
+  const CATALOG = window.RR_CATALOG || { featured: [], assets: [] };
 
   const ROADMAP = [
     { name: "Party Soccer Controller", st: "build", label: "Final testing", desc: "Wobbly players, ragdoll tackles and overcharged shots across seven modes, including Head Soccer. Local 1v1 and 2v2." },
@@ -538,35 +531,85 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
     rope: `<svg viewBox="0 0 48 48" ${S}><path d="M6 6h36M14 6l8 18M36 6l-4 14"/><circle cx="23" cy="27" r="3"/><path d="M23 30l1 8M18 33l5-2 5 2M20 44l4-6 3 6"/></svg>`
   };
 
-  const CATS = [
-    { key: "all", label: "All" },
-    { key: "new", label: "New generation" },
-    { key: "ground", label: "Ground & boards" },
-    { key: "flight", label: "Flight" },
-    { key: "balance", label: "Balance & party" },
-    { key: "action", label: "Action" }
-  ];
-
+  /* ---------- Dates: ?today=YYYY-MM-DD in the address bar previews any day ---------- */
+  const DAY = 86400000;
+  const parseDay = (s) => { const p = String(s).split("-").map(Number); return new Date(p[0], p[1] - 1, p[2]); };
+  function today() {
+    const q = new URLSearchParams(location.search).get("today") || window.RR_TODAY;
+    if (q && /^\d{4}-\d{2}-\d{2}$/.test(q)) return parseDay(q);
+    const n = new Date(); return new Date(n.getFullYear(), n.getMonth(), n.getDate());
+  }
+  let T = today(), ASSETS = [];
+  const isLive = (a) => !a.live || parseDay(a.live) <= T;
+  const isNew = (a) => { const age = Math.round((T - parseDay(a.released)) / DAY); return age >= 0 && age < 21; };
+  function saleOf(a) {
+    if (!a.sale) return null;
+    const left = Math.round((parseDay(a.sale.ends) - T) / DAY);
+    if (left < 0) return null;
+    return { price: a.sale.price, pct: Math.round((1 - a.sale.price / a.price) * 100), left };
+  }
+  const leftText = (n) => n === 0 ? "last day" : n === 1 ? "1 day left" : n + " days left";
+  const money = (n) => "$" + Number(n).toFixed(2);
+  const imgSrc = (a) => a.img ? "card-" + a.slug + ".webp?v=" + a.img : "";
+  const hrefOf = (a) => a.id ? pkg(a.id) : storeUrl;
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-  const storeUrl = aff(PUBLISHER);
+  const priceHtml = (a, s) => s
+    ? `<div class="price"><b>${money(s.price)}</b><s>${money(a.price)}</s><span class="off">-${s.pct}% &middot; ${leftText(s.left)}</span></div>`
+    : `<div class="price"><b>${money(a.price)}</b></div>`;
+
   ["nav-store", "hero-store", "contact-store"].forEach((id) => { document.getElementById(id).href = storeUrl; });
 
-  let filter = "all", query = "";
-  try { const f = localStorage.getItem("rr-filter"); if (f && CATS.some(c => c.key === f)) filter = f; } catch (e) {}
+  /* ---------- Featured strip ---------- */
+  const feat = document.getElementById("feat");
+  function pickFeatured() {
+    const f = (CATALOG.featured || []).find((f) => parseDay(f.from) <= T && T <= parseDay(f.until) && ASSETS.some((a) => a.slug === f.slug));
+    if (f) return { a: ASSETS.find((a) => a.slug === f.slug), eyebrow: f.eyebrow || "Featured" };
+    const onSale = ASSETS.filter(saleOf).sort((x, y) => y.released.localeCompare(x.released));
+    return onSale.length ? { a: onSale[0], eyebrow: "Launch sale" } : null;
+  }
+  function renderFeatured() {
+    const pick = pickFeatured();
+    if (!pick) { feat.hidden = true; feat.innerHTML = ""; return; }
+    const a = pick.a, s = saleOf(a), href = hrefOf(a);
+    const art = a.img ? `<img src="${imgSrc(a)}" alt="" width="420" height="280">` : (ICONS[a.icon] || "");
+    feat.innerHTML = `<div class="wrap">
+      <a class="feat-art" href="${href}" target="_blank" rel="noopener sponsored" data-track="featured-${a.slug}" aria-hidden="true" tabindex="-1">${art}</a>
+      <div class="feat-text">
+        <div class="eyebrow">${esc(pick.eyebrow)}</div>
+        <h2><a href="${href}" target="_blank" rel="noopener sponsored" data-track="featured-${a.slug}">${esc(a.short)}</a></h2>
+        <p>${esc(a.blurb)}</p>
+      </div>
+      <div class="feat-buy">${priceHtml(a, s)}
+        <a class="btn btn-primary" href="${href}" target="_blank" rel="noopener sponsored" data-track="featured-${a.slug}">Get it on the Asset Store</a>
+        ${a.demo ? `<a class="btn" href="${a.demo}" target="_blank" rel="noopener">&#9654; Play demo</a>` : ""}
+      </div></div>`;
+    feat.hidden = false;
+  }
 
-  const matches = (c) => {
-    const inCat = filter === "all" || (filter === "new" ? c.gen === "new" : c.cat === filter);
-    const q = query.trim().toLowerCase();
-    const inQ = !q || (c.name + " " + c.desc + " " + c.tags.join(" ")).toLowerCase().includes(q);
-    return inCat && inQ;
-  };
+  /* ---------- Filters ---------- */
+  const FILTERS = [
+    { key: "all", label: "All", test: () => true },
+    { key: "newest", label: "Newest", test: () => true, sort: true, noCount: true },
+    { key: "sale", label: "On sale", test: (a) => !!saleOf(a) },
+    { key: "creator", label: "Tools & Creators", test: (a) => !!a.creator },
+    { sep: true },
+    { key: "ground", label: "Ground & boards", test: (a) => a.cat === "ground" },
+    { key: "flight", label: "Flight", test: (a) => a.cat === "flight" },
+    { key: "balance", label: "Balance & party", test: (a) => a.cat === "balance" },
+    { key: "action", label: "Action", test: (a) => a.cat === "action" }
+  ];
+  const byKey = (k) => FILTERS.find((f) => f.key === k);
+  let filter = "all", query = "";
+  try { const f = localStorage.getItem("rr-filter"); if (f && byKey(f)) filter = f; } catch (e) {}
 
   const chips = document.getElementById("chips");
   function renderChips() {
-    chips.innerHTML = CATS.map((c) => {
-      const n = CONTROLLERS.filter((x) => c.key === "all" || (c.key === "new" ? x.gen === "new" : x.cat === c.key)).length;
+    if (!ASSETS.some(byKey(filter).test)) filter = "all";
+    chips.innerHTML = FILTERS.map((f) => {
+      if (f.sep) return '<span class="chip-sep" aria-hidden="true"></span>';
+      const n = ASSETS.filter(f.test).length;
       if (!n) return "";
-      return `<button type="button" class="chip" data-k="${c.key}" aria-pressed="${filter === c.key}">${c.label}<span class="n">${n}</span></button>`;
+      return `<button type="button" class="chip" data-k="${f.key}" aria-pressed="${filter === f.key}">${esc(f.label)}${f.noCount ? "" : `<span class="n">${n}</span>`}</button>`;
     }).join("");
   }
   chips.addEventListener("click", (e) => {
@@ -576,23 +619,29 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
     renderChips(); renderGrid();
   });
 
+  /* ---------- Cards ---------- */
   const grid = document.getElementById("grid");
   function renderGrid() {
-    const list = CONTROLLERS.filter(matches);
-    if (!list.length) { grid.innerHTML = `<div class="empty">No assets match “${esc(query)}”. Try another word or clear the filter.</div>`; return; }
-    grid.innerHTML = list.map((c) => {
-      const href = c.id ? pkg(c.id) : storeUrl;
-      const tag = c.isNew ? '<span class="tag tag-new">New</span>' : '';
-      const soon = c.soon ? `<a class="demo demo-off" aria-disabled="true" tabindex="-1">Coming soon</a>` : "";
-      const demo = c.demo ? `<a class="demo" href="${c.demo}" target="_blank" rel="noopener">Play demo<span class="vc" data-slug="${c.demo.split('/')[1]}"></span></a>` : "";
-      return `<article class="card" data-cat="${c.cat}">
-        ${c.img ? `<div class="card-art has-img">${tag}<img src="${c.img}" data-local="${c.local || ""}" data-icon="${c.icon}" alt="${esc(c.name)} cover image" width="420" height="280" loading="lazy"></div>` : `<div class="card-art">${tag}${ICONS[c.icon] || ""}</div>`}
+    const f = byKey(filter), q = query.trim().toLowerCase();
+    let list = ASSETS.filter((a) => f.test(a) && (!q || (a.name + " " + a.blurb + " " + a.tags.join(" ")).toLowerCase().includes(q)));
+    if (f.sort) list = list.slice().sort((x, y) => y.released.localeCompare(x.released));
+    if (!list.length) { grid.innerHTML = `<div class="empty">${q ? `No assets match “${esc(query)}”.` : "Nothing here right now."} Try another word or clear the filter.</div>`; return; }
+    grid.innerHTML = list.map((a) => {
+      const s = saleOf(a), href = hrefOf(a);
+      const badges = "";
+      const art = a.img
+        ? `<div class="card-art has-img">${badges}<img src="${imgSrc(a)}" data-local="${a.local || ""}" data-icon="${a.icon}" alt="${esc(a.short)} cover image" width="420" height="280" loading="lazy"></div>`
+        : `<div class="card-art">${badges}${ICONS[a.icon] || ""}</div>`;
+      const demo = a.demo ? `<a class="demo" href="${a.demo}" target="_blank" rel="noopener">Play demo<span class="vc" data-slug="${a.demo.split("/")[1]}"></span></a>` : "";
+      return `<article class="card" data-cat="${a.cat}">
+        ${art}
         <div class="card-body">
-          <h3>${esc(c.name)}</h3>
-          <p>${esc(c.desc)}</p>
-          <div class="meta">${c.tags.map((t) => `<span>${esc(t)}</span>`).join("")}</div>
+          <h3 title="${esc(a.name)}">${esc(a.short)}</h3>
+          <p class="blurb" title="${esc(a.blurb)}">${esc(a.blurb)}</p>
+          <div class="meta">${isNew(a) ? '<span class="m-new">NEW</span>' : ""}${a.tags.slice(0, 2).map((t) => `<span>${esc(t)}</span>`).join("")}</div>
+          ${priceHtml(a, s)}
           <div class="card-actions">
-            <a class="buy" href="${href}" target="_blank" rel="noopener sponsored" data-track="store-${c.img.replace(/^card-|\.webp.*$/g, '')}">View on Asset Store<span class="vc" data-key="store-${c.img.replace(/^card-|\.webp.*$/g, '')}"></span></a>${demo}${soon}
+            <a class="buy" href="${href}" target="_blank" rel="noopener sponsored" data-track="store-${a.slug}">Asset Store<span class="vc" data-key="store-${a.slug}"></span></a>${demo}
           </div>
         </div>
       </article>`;
@@ -612,13 +661,18 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
   document.getElementById("road").innerHTML = ROADMAP.map((r) =>
     `<div class="road-item"><span class="pill p-${r.st}">${r.label}</span><h3>${esc(r.name)}</h3><p>${esc(r.desc)}</p></div>`).join("");
 
-  document.getElementById("st-live").textContent = CONTROLLERS.length;
-  const nDemos = CONTROLLERS.filter((c) => c.demo).length;
-  window.RR_STORE = CONTROLLERS.map((c) => "store-" + c.img.replace(/^card-|\.webp.*$/g, ""));
-  window.RR_DEMOS = CONTROLLERS.filter((c) => c.demo).map((c) => c.demo.split("/")[1]);
-  document.getElementById("st-demos").textContent = nDemos;
-  document.getElementById("st-demos-wrap").hidden = nDemos === 0;
-  document.getElementById("st-next").textContent = ROADMAP.length;
+  function renderAll() {
+    T = today();
+    ASSETS = CATALOG.assets.filter(isLive);
+    window.RR_STORE = ASSETS.map((a) => "store-" + a.slug);
+    window.RR_DEMOS = ASSETS.filter((a) => a.demo).map((a) => a.demo.split("/")[1]);
+    document.getElementById("st-live").textContent = ASSETS.length;
+    document.getElementById("st-demos").textContent = window.RR_DEMOS.length;
+    document.getElementById("st-demos-wrap").hidden = window.RR_DEMOS.length === 0;
+    document.getElementById("st-next").textContent = ROADMAP.length;
+    renderFeatured(); renderChips(); renderGrid();
+  }
+  window.rrRenderAll = renderAll;
 
   const copyBtn = document.getElementById("copy");
   copyBtn.addEventListener("click", () => {
@@ -628,7 +682,7 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
     try { navigator.clipboard.writeText(text).then(done, fallback); } catch (e) { fallback(); }
   });
 
-  renderChips(); renderGrid();
+  renderAll();
 
   /* ---------- Hero physics: rider balancing on a rolling ball ---------- */
   const cv = document.getElementById("lab"), ctx = cv.getContext("2d");
