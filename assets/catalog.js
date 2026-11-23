@@ -8,31 +8,41 @@
    blurb     ONE short line (about 60 characters)
    tags      exactly 2 short tags
    price     list price in USD
-   sale      { price: 17.49, ends: "YYYY-MM-DD" }  badge shows "-50% · N days left" and hides itself after the end date
-   released  "YYYY-MM-DD"  sorts "Newest" and shows the New badge for 21 days
+   sale      { price: 17.49, ends: "YYYY-MM-DD" }  pill shows "-50% · N days left", hides itself after the end date.
+             Launch sales are usually 14 days: ends = launch date + 14 (Wobbly 14 Nov -> 28 Nov).
+   launch    "YYYY-MM-DD"  NEW ASSETS: the publish date. Sets released + live, the 14-day sale end (leave "ends" out)
+             and the featured strip for launch week. launch: null = hidden until you set the date.
+   released  "YYYY-MM-DD"  sorts "Newest". NEW pill shows until 7 days after the sale ends (no sale: 21 days)
    live      "YYYY-MM-DD"  optional: the card stays hidden until this date (add a launch ahead of time)
    cat       ground | flight | balance | action    (category chips)
-   creator   true = also listed under "Tools & Creators"
+   creator   true = also listed under "Editors & Creators"
    id        Asset Store package number (null = links to the publisher page)
    img       image version, e.g. 5 -> card-<slug>.webp?v=5 (null = drawn icon)
    local     optional fallback image URL
    demo      web demo folder, e.g. "demos/pro-skate/" (null = no demo button)
    icon      drawn icon used when there is no image
 
-   FEATURED: the strip under the header. The entry whose dates include today is shown.
-   If none matches, the newest asset that is on sale is shown. Test any date with ?today=2026-11-26 in the address bar. */
+   FEATURED: the strip under the header. A launch is featured for its first 7 days automatically.
+   Otherwise the newest asset on sale; hidden when nothing is on sale. Test any date with ?today=2026-11-26. */
 
 window.RR_CATALOG = {
-  featured: [
-    { slug: "bmx-trick", from: "2026-11-26", until: "2026-12-02", eyebrow: "Launch week" },
-    { slug: "silly-car", from: "2026-12-03", until: "2026-12-09", eyebrow: "Launch week" }
+  /* Optional overrides only: a launch is featured automatically for its first 7 days. */
+  featured: [],
+
+  /* TOOLS section (apps sold outside the Asset Store). track = click-counter key prefix (keep it). */
+  tools: [
+    { slug: "vertical-shorts-editor", name: "Vertical Shorts Editor", track: "vse",
+      blurb: "Make Shorts of your game in minutes: timeline, big text, transitions, end cards and posting texts.",
+      price: 12.99, platform: "runs on your PC", img: "tool-vertical-shorts-editor.webp",
+      alt: "Vertical Shorts Editor: a Short of a toppling toy tower next to the editor",
+      buy: "https://ragerun.itch.io/vertical-shorts-editor", buyLabel: "Buy on itch.io", page: "vertical-shorts-editor/" }
   ],
 
   assets: [
     { slug: "bmx-trick", name: "BMX Trick Controller: Physics BMX, Tricks & Park Builder", short: "BMX Trick Controller",
       blurb: "Physics BMX with flips, barspins, peg grinds and a Park Builder.",
-      tags: ["Bike Creator", "Park Builder"], price: 24.99, sale: { price: 12.49, ends: "2026-12-03" },
-      released: "2026-11-26", live: "2026-11-26", cat: "ground", creator: false, id: null, img: null, demo: "demos/bmx-trick/", icon: "bike" },
+      tags: ["Bike Creator", "Park Builder"], price: 24.99, sale: { price: 12.49 },
+      launch: null /* set to the publish date, e.g. "2026-11-26", plus id below */, cat: "ground", creator: false, id: null, img: null, demo: "demos/bmx-trick/", icon: "bike" },
 
     { slug: "morph-tool-studio", name: "Morph Tool Studio: Morph Any Model Into Any Other", short: "Morph Tool Studio",
       blurb: "Morph any model into any other with 10 transitions.",
