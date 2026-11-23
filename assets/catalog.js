@@ -41,7 +41,7 @@ window.RR_CATALOG = {
       price: 14.99, platform: "runs on your PC", img: "tool-comedy-sound-synth.webp",
       alt: "Comedy Sound Synth: the sound type list next to the title",
       buy: "https://ragerun.itch.io/comedy-sound-synth", buyLabel: "Buy on itch.io", page: "comedy-sound-synth/",
-      live: "2099-01-01" /* hidden until launch: set to the launch date when the itch.io page is Public */ }
+      live: "2026-11-23" /* launched 23 Nov 2026 (itch.io page Public) */ }
   ],
 
   assets: [
