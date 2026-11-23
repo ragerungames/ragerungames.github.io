@@ -392,7 +392,7 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
     </div>
   </section>
 
-  <section id="tools" class="band" hidden>
+  <section id="tools" class="band">
     <div class="wrap">
       <div class="sec-head">
         <div>
@@ -401,7 +401,21 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
         </div>
         <p>The tools we use to market our own games, for Windows.</p>
       </div>
-      <div class="games" id="tools-grid"></div>
+      <div class="games">
+        <article class="game">
+          <div class="game-art">
+            <img src="tool-vertical-shorts-editor.webp" width="1200" height="630" alt="Vertical Shorts Editor: a Short of a toppling toy tower next to the editor" loading="lazy">
+          </div>
+          <div class="game-body">
+            <h3><a href="vertical-shorts-editor/" style="color:inherit;text-decoration:none">Vertical Shorts Editor</a></h3>
+            <p>Make Shorts of your game in minutes: timeline, big text, transitions, end cards and posting texts. $12.99, runs on your PC.</p>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px">
+              <a class="btn btn-primary" data-track="vse-buy" href="https://ragerun.itch.io/vertical-shorts-editor" target="_blank" rel="noopener">Buy on itch.io<span class="vc" data-key="vse-buy"></span></a>
+              <a class="btn" data-track="vse-page" href="vertical-shorts-editor/">Tool page &rarr;</a>
+            </div>
+          </div>
+        </article>
+      </div>
     </div>
   </section>
 
@@ -552,22 +566,9 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
     if (q && /^\d{4}-\d{2}-\d{2}$/.test(q)) return parseDay(q);
     const n = new Date(); return new Date(n.getFullYear(), n.getMonth(), n.getDate());
   }
-  const addDays = (s, n) => { const d = parseDay(s); d.setDate(d.getDate() + n); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); };
-  /* launch: "YYYY-MM-DD" sets released + live, and a sale without "ends" runs 14 days. launch: null = hidden until a date is set. */
-  function norm(a) {
-    if (!("launch" in a)) return a;
-    if (!a.launch) return Object.assign({}, a, { released: "9999-12-31", live: "9999-12-31" });
-    const sale = a.sale ? Object.assign({ ends: addDays(a.launch, 14) }, a.sale) : a.sale;
-    return Object.assign({}, a, { released: a.launch, live: a.launch, sale });
-  }
   let T = today(), ASSETS = [];
   const isLive = (a) => !a.live || parseDay(a.live) <= T;
-  /* NEW pill: from release until 7 days after the launch sale ends (no sale: 21 days after release) */
-  const isNew = (a) => {
-    if (Math.round((T - parseDay(a.released)) / DAY) < 0) return false;
-    const until = a.sale ? Math.round((parseDay(a.sale.ends) - T) / DAY) + 7 : 21 - Math.round((T - parseDay(a.released)) / DAY) - 1;
-    return until >= 0;
-  };
+  const isNew = (a) => { const age = Math.round((T - parseDay(a.released)) / DAY); return age >= 0 && age < 21; };
   function saleOf(a) {
     if (!a.sale) return null;
     const left = Math.round((parseDay(a.sale.ends) - T) / DAY);
@@ -590,8 +591,6 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
   function pickFeatured() {
     const f = (CATALOG.featured || []).find((f) => parseDay(f.from) <= T && T <= parseDay(f.until) && ASSETS.some((a) => a.slug === f.slug));
     if (f) return { a: ASSETS.find((a) => a.slug === f.slug), eyebrow: f.eyebrow || "Featured" };
-    const week = ASSETS.filter((a) => a.launch && Math.round((T - parseDay(a.launch)) / DAY) <= 6).sort((x, y) => y.launch.localeCompare(x.launch));
-    if (week.length) return { a: week[0], eyebrow: "Launch week" };
     const onSale = ASSETS.filter(saleOf).sort((x, y) => y.released.localeCompare(x.released));
     return onSale.length ? { a: onSale[0], eyebrow: "Launch sale" } : null;
   }
@@ -619,7 +618,7 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
     { key: "all", label: "All", test: () => true },
     { key: "newest", label: "Newest", test: () => true, sort: true, noCount: true },
     { key: "sale", label: "On sale", test: (a) => !!saleOf(a) },
-    { key: "creator", label: "Editors & Creators", test: (a) => !!a.creator },
+    { key: "creator", label: "Tools & Creators", test: (a) => !!a.creator },
     { sep: true },
     { key: "ground", label: "Ground & boards", test: (a) => a.cat === "ground" },
     { key: "flight", label: "Flight", test: (a) => a.cat === "flight" },
@@ -691,10 +690,8 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
 
   function renderAll() {
     T = today();
-    ASSETS = CATALOG.assets.map(norm).filter(isLive);
-    const TOOLS = (CATALOG.tools || []).filter((t) => !t.live || parseDay(t.live) <= T);
-    window.RR_STORE = ASSETS.map((a) => "store-" + a.slug).concat(...TOOLS.map((t) => [t.track + "-buy", t.track + "-page"]));
-    renderTools(TOOLS);
+    ASSETS = CATALOG.assets.filter(isLive);
+    window.RR_STORE = ASSETS.map((a) => "store-" + a.slug);
     window.RR_DEMOS = ASSETS.filter((a) => a.demo).map((a) => a.demo.split("/")[1]);
     document.getElementById("st-live").textContent = ASSETS.length;
     document.getElementById("st-demos").textContent = window.RR_DEMOS.length;
@@ -703,23 +700,6 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
     renderFeatured(); renderChips(); renderGrid();
   }
   window.rrRenderAll = renderAll;
-
-  /* ---------- Tools (Windows apps etc.): catalog.js "tools" list ---------- */
-  function renderTools(list) {
-    const sec = document.getElementById("tools"), box = document.getElementById("tools-grid");
-    sec.hidden = !list.length;
-    box.innerHTML = list.map((t) => `<article class="game">
-          <div class="game-art">${t.img ? `<img src="${t.img}" width="1200" height="630" alt="${esc(t.alt || t.name)}" loading="lazy">` : ""}</div>
-          <div class="game-body">
-            <h3>${t.page ? `<a href="${t.page}" style="color:inherit;text-decoration:none">${esc(t.name)}</a>` : esc(t.name)}</h3>
-            <p>${esc(t.blurb)} ${money(t.price)}${t.platform ? ", " + esc(t.platform) : ""}.</p>
-            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px">
-              <a class="btn btn-primary" data-track="${t.track}-buy" href="${t.buy}" target="_blank" rel="noopener">${esc(t.buyLabel || "Buy")}<span class="vc" data-key="${t.track}-buy"></span></a>
-              ${t.page ? `<a class="btn" data-track="${t.track}-page" href="${t.page}">Tool page &rarr;</a>` : ""}
-            </div>
-          </div>
-        </article>`).join("");
-  }
 
   const copyBtn = document.getElementById("copy");
   copyBtn.addEventListener("click", () => {

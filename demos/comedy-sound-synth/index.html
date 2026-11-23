@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Comedy Sound Synth - free web demo | RageRun Games</title>
+<meta name="description" content="Free web demo of RageRun Comedy Sound Synth: design cartoon sound effects in your browser. Boings, bonks, slide whistles and gibberish voices, with sliders, layers and effects. Royalty-free WAV downloads.">
+<meta property="og:title" content="RageRun Comedy Sound Synth - free web demo">
+<meta property="og:description" content="Free web demo of RageRun Comedy Sound Synth: design cartoon sound effects in your browser. Boings, bonks, slide whistles and gibberish voices, with sliders, layers and effects. Royalty-free WAV downloads.">
+<meta property="og:url" content="https://ragerungames.com/demos/comedy-sound-synth/">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="static/app.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%231b2044%22/%3E%3Ccircle cx=%2216%22 cy=%229%22 r=%225%22 fill=%22%23FF6FA8%22/%3E%3Cpath d=%22M10 16h12M10 20h12M10 24h12%22 stroke=%22%23FFC93C%22 stroke-width=%222.6%22 stroke-linecap=%22round%22/%3E%3C/svg%3E">
+</head>
+<body data-page="designer" class="demo">
+<header id="top">
+  <div class="brand">
+    <svg class="logo" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#1b2044" stroke="#FFC93C" stroke-width="2"/><circle cx="16" cy="9.5" r="4.6" fill="#FF6FA8"/><path d="M10.5 16.5c7 0 7 2.4 11 2.4M10.5 20.7c7 0 7 2.4 11 2.4M9 26.5h14" stroke="#FFC93C" stroke-width="2.4" stroke-linecap="round" fill="none"/></svg>
+    <span class="word">Comedy Sound Synth</span>
+  </div>
+  <nav class="pages">
+    <button class="page on" data-page="designer">Sound Designer</button>
+    <button class="page" data-page="library" title="Hundreds of finished sounds, your favourites and collections, and your own sound folders">Library</button>
+    <button class="page" data-page="gag" title="Put sounds on a timeline and bounce them into one gag">Gag Builder</button>
+    <button class="page" data-page="board" title="Play sounds live from the keyboard and record a take">Soundboard</button>
+  </nav>
+  <div class="hist designer-only">
+    <button id="btnUndo" class="icon" title="Undo (Ctrl+Z)" disabled>&#8630;</button>
+    <button id="btnRedo" class="icon" title="Redo (Ctrl+Y)" disabled>&#8631;</button>
+  </div>
+  <div class="spacer"></div>
+  <div class="demo-bar"><span class="pill">FREE WEB DEMO</span><a class="buy" href="https://ragerungames.com/comedy-sound-synth/" target="_blank" rel="noopener">Get the full app</a></div>
+  <span id="status" class="muted"></span>
+  <div class="proj-wrap">
+    <button id="btnProject" class="ghost proj-btn" title="Projects: keep everything you're working on in one file (Ctrl+Shift+S saves it)"><span class="ic">&#128193;</span><span id="projName">Untitled project</span><span id="projDirty" class="dirty hidden" title="Changes since the project was saved">&#9679;</span><span class="caret">&#9662;</span></button>
+    <div id="projMenu" class="menu hidden"></div>
+  </div>
+  <button id="btnOpen" class="ghost designer-only" title="Open a sound you saved with Comedy Sound Synth and keep editing it (Ctrl+O). You can also drop a WAV on the window.">Open...</button>
+  <button id="btnAbout" class="icon" title="About, help and support">?</button>
+  <button id="btnSaveTop" class="primary designer-only" title="Save this sound as a file in your save folder (Ctrl+S). Format: the Save card's Format... button">Save</button>
+</header>
+
+<main id="main">
+  <aside id="left" class="panel">
+    <div class="panel-head"><span>Sound types</span><span id="typeFor" class="count"></span></div>
+    <input id="typeSearch" class="search" placeholder="Search types and presets..." spellcheck="false">
+    <div id="typeList" class="type-list"></div>
+    <div class="panel-head"><span>Presets</span></div>
+    <div id="presetList" class="preset-list"></div>
+  </aside>
+
+  <section id="work">
+    <div class="card listen">
+      <div class="card-head">
+        <div class="title-block">
+          <div id="soundTitle" class="sound-title">Spring Boing</div>
+          <div id="typeAbout" class="muted small"></div>
+        </div>
+        <div class="spacer"></div>
+        <div class="ab" title="A/B compare: keep two versions and flip between them (X)">
+          <button id="slotA" class="slot on">A</button><button id="slotB" class="slot">B</button>
+        </div>
+        <label class="toggle" title="Play the sound every time you change it"><input type="checkbox" id="autoPlay" checked><span></span>Auto-play</label>
+      </div>
+      <div id="waveWrap"><canvas id="wave"></canvas><div id="waveHint" class="muted small">Click to play · drag the yellow bars to trim, the pink dots to fade</div></div>
+      <div class="transport">
+        <button id="btnPlay" class="play primary" title="Play (Space)"><span class="ico">&#9654;</span><span class="lbl">Play</span></button>
+        <button id="btnLoop" class="chip" title="Loop the preview (L)">&#10227; Loop</button>
+        <span class="sep"></span>
+        <button id="btnRandom" title="New values for every slider that isn't locked (R)">&#127922; Randomize</button>
+        <button id="btnMutate" title="A bit different: nudges every slider that isn't locked (M)">&#10024; Mutate</button>
+        <button id="btnVariation" title="Same sound, a new take: new seeds for every layer (V)">&#8635; Variation</button>
+        <button id="btnTrimReset" class="ghost hidden" title="Remove the trim and the fades">Reset trim</button>
+        <div class="spacer"></div>
+        <span id="soundInfo" class="muted small mono"></span>
+      </div>
+    </div>
+
+    <div class="card layers">
+      <div class="layer-row">
+        <span class="card-title">Layers</span>
+        <div id="layerTabs" class="layer-tabs"></div>
+        <button id="btnAddLayer" class="ghost small" title="Stack another sound on top (up to 4)">+ Add layer</button>
+        <button id="btnAddOwn" class="ghost small" title="Comedy-fy: bring in a sound of your own (WAV, MP3, OGG or FLAC) as a layer">+ Your sound</button>
+      </div>
+      <div id="layerCtl" class="layer-ctl"></div>
+    </div>
+
+    <div class="cols">
+      <div class="card">
+        <div class="card-head"><span class="card-title" id="shapeTitle">Shape the sound</span><div class="spacer"></div>
+          <span class="muted small">Double-click a slider to put it back</span></div>
+        <div id="sayRow" class="say-row hidden">
+          <div class="row1"><span class="lb">Say</span><span class="muted small">Type a line and the gibberish follows it: its length, pauses, questions and shouts. No real words come out.</span></div>
+          <textarea id="sayText" rows="2" maxlength="240" spellcheck="false" placeholder="e.g. Hello there! Have you seen my hat? (leave empty for random chatter)"></textarea>
+          <div class="muted small">With text: Bounce = talking speed, Length = how long the pauses are. Commas pause, ? goes up at the end, ! and CAPITALS get excited.</div>
+        </div>
+        <div id="sliders" class="sliders"></div>
+        <div class="seed-row" id="seedRow">
+          <span class="lb">Seed</span>
+          <input id="seed" type="number" min="1" max="99999" step="1" title="The take: the same seed always gives the same sound">
+          <button id="seedLock" class="lock" title="Lock the seed: Randomize and Mutate keep it">&#128275;</button>
+          <button id="seedNew" class="ghost small" title="New seed for this layer">&#127922; New</button>
+        </div>
+        <details id="advanced" class="adv">
+          <summary>Advanced <span class="muted small">draw the pitch, shape the volume, tone and grit</span></summary>
+          <div class="adv-grid">
+            <div class="curve-box">
+              <div class="curve-head"><span class="lb">Pitch bend</span><span class="muted small">up to 12 semitones up or down</span></div>
+              <canvas id="bendCurve" class="curve"></canvas>
+            </div>
+            <div class="curve-box">
+              <div class="curve-head"><span class="lb">Volume shape</span><span class="muted small">fade parts in and out</span></div>
+              <canvas id="envCurve" class="curve"></canvas>
+            </div>
+          </div>
+          <div class="muted small adv-help">Click to add a point, drag to move it, double-click or right-click to remove it.</div>
+          <div id="advSliders" class="sliders"></div>
+          <div class="adv-foot"><button id="advReset" class="ghost small">Reset Advanced</button></div>
+        </details>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><span class="card-title">Effects</span><span class="muted small">on the whole sound</span><div class="spacer"></div>
+          <button id="fxClear" class="ghost small" title="Turn every effect off">All off</button></div>
+        <div id="fxLooks" class="fx-looks"></div>
+        <div id="fxRack" class="fx-rack"></div>
+      </div>
+    </div>
+
+    <div class="card save">
+      <div class="card-head"><span class="card-title">Save</span></div>
+      <div class="save-grid">
+        <label for="soundName">Name</label>
+        <input id="soundName" spellcheck="false" maxlength="100">
+        <label id="folderLbl">Folder</label>
+        <label class="demo-note">Folder</label><div class="demo-note muted small" style="padding-top:2px">Your browser's Downloads folder</div>
+        <div class="folder-row">
+          <input id="saveFolder" spellcheck="false" title="Where your WAV files go">
+          <button id="btnPickFolder" title="Pick a folder">Choose...</button>
+          <button id="btnOpenFolder" class="ghost" title="Open this folder in Explorer">Open</button>
+        </div>
+        <span></span>
+        <div class="save-row">
+          <button id="btnSave" class="primary" title="Save this sound in the folder above (Ctrl+S)">Save</button>
+          <span class="var-group" title="Saves several takes of this sound (Name 1, Name 2 ...). Games can pick one at random so a sound never repeats exactly.">
+            <span class="muted small">Save variations</span>
+            <button class="var" data-n="5">5</button><button class="var" data-n="10">10</button><button class="var" data-n="20">20</button>
+          </span>
+          <label class="check" title="Stores the recipe inside the WAV, so Open can bring the sound back for editing. Games and editors ignore it."><input type="checkbox" id="keepRecipe" checked> Keep the recipe in the file</label>
+          <span id="saveNote" class="muted small mono"></span>
+        </div>
+        <label>Format</label>
+        <div class="fmt-row"><span id="saveFmt" class="small"></span><button id="btnFormat" class="ghost small" title="File type, sample rate, loudness and file names: one setting for every save (also packs, gags and takes). Ready-made settings for Unity, Godot, Unreal, GameMaker, web games and video.">Format...</button></div>
+      </div>
+      <div id="lastSaved" class="last-saved hidden"></div>
+    </div>
+  </section>
+</main>
+
+<main id="libPage" class="hidden">
+  <aside id="libSide" class="panel">
+    <div id="libShelves"></div>
+    <div class="panel-head"><span>Collections</span><button id="libNewCol" class="ghost small" title="A new collection: your own list of sounds for a game or a video">+ New</button></div>
+    <div id="libCols"></div>
+    <div class="panel-head"><span>My sounds</span><button id="libAddFolder" class="ghost small" title="Show the sounds in another folder on your PC">+ Folder</button></div>
+    <div id="libFolders"></div>
+  </aside>
+  <section id="libMain">
+    <div class="lib-bar">
+      <input id="libSearch" class="search" placeholder="Search sounds: a name, a type or a tag (boing, fail, water...)" spellcheck="false">
+      <select id="libSort" title="Order of the sounds"><option value="type">By type</option><option value="az">A to Z</option><option value="new">Newest first</option></select>
+      <label class="toggle" title="Play a sound when the mouse rests on it"><input type="checkbox" id="libHover"><span></span>Play on hover</label>
+      <button id="libComedify" title="Comedy-fy: bring in a sound of your own (WAV, MP3, OGG or FLAC) and run it through layers and effects">&#127908; Comedy-fy a sound...</button>
+    </div>
+    <div class="lib-head"><div><div id="libTitle" class="sound-title">All sounds</div><div id="libAbout" class="muted small"></div></div><div class="spacer"></div><span id="libCount" class="muted small"></span>
+      <button id="libExport" class="small" title="Export the sounds shown here (this shelf, search and tags) as a pack: a folder or ZIP of files ready for your game or video, with a list of the sounds">&#128230; Export pack...</button></div>
+    <div id="libTags" class="lib-tags"></div>
+    <div id="libGrid" class="lib-grid"></div>
+  </section>
+</main>
+
+<main id="gagPage" class="hidden">
+  <div class="card">
+    <div class="card-head">
+      <input id="gagName" class="gag-name" maxlength="80" spellcheck="false" title="The gag's name (used when you save it)">
+      <span id="gagInfo" class="muted small"></span>
+      <div class="spacer"></div>
+      <button id="gagUndo" class="icon" title="Undo (Ctrl+Z)" disabled>&#8630;</button>
+      <button id="gagRedo" class="icon" title="Redo (Ctrl+Y)" disabled>&#8631;</button>
+      <select id="gagPreset" title="Gag presets: a ready-made gag to start from"></select>
+    </div>
+    <div class="transport">
+      <button id="gagPlay" class="play primary" title="Play the whole gag (Space)">&#9654; Play</button>
+      <button id="gagAdd" title="Add a sound to the timeline (or double-click the timeline)">+ Add sound</button>
+      <button id="gagClear" class="ghost" title="Take every sound off the timeline">Clear</button>
+      <button id="gagVideoBtn" title="Video Sync: put a video above the timeline and add sounds where things happen (A adds a sound at the playhead)">&#127916; Video...</button>
+      <div class="spacer"></div>
+      <span class="muted small">Zoom</span><input id="gagZoom" type="range" min="40" max="400" step="5" class="zoom">
+    </div>
+    <div id="gagVid" class="gag-vid hidden">
+      <video id="gagVideo" preload="auto" playsinline title="Click to play or stop (Space)"></video>
+      <div class="vid-side">
+        <div id="gagVidName" class="sel-name"></div>
+        <div id="gagVidTime" class="mono vid-time">0:00.0</div>
+        <div class="mini"><span class="lb">Video sound</span><input id="gagVidVol" type="range" min="0" max="1" step="0.01"><span class="val"></span></div>
+        <div class="muted small">Space plays the video with the sounds. <b>A</b> adds a sound at the playhead, <b>Q</b> drops the last one again while it plays. Click the timeline to jump.</div>
+        <div class="btn-row"><button id="gagVidRemove" class="ghost small">Remove video</button></div>
+      </div>
+    </div>
+    <div id="gagTlWrap" class="tl-wrap"><div id="gagTl" class="tl"></div>
+      <div id="gagEmpty" class="tl-empty muted">Pick a gag preset above, or <b>+ Add sound</b>. Drag sounds to move them (Shift = 0.1 s steps), click one to hear the gag from there.</div></div>
+    <div class="muted small" style="margin-top:6px">Click the timeline to play from there · double-click it to add a sound there · Delete removes · arrows nudge (Shift = more) · M mutes · Ctrl+D duplicates</div>
+  </div>
+  <div class="cols">
+    <div class="card">
+      <div class="card-head"><span class="card-title">Selected sound</span></div>
+      <div id="gagNoSel" class="muted small">Click a sound on the timeline to change it.</div>
+      <div id="gagSel" class="hidden">
+        <div id="gagSelName" class="sel-name"></div>
+        <div class="mini"><span class="lb">Start</span><input id="gagStart" type="number" step="0.01" min="0" max="30" class="num"><span class="val">s</span></div>
+        <div class="mini"><span class="lb">Volume</span><input id="gagVol" type="range" min="0" max="1.5" step="0.01"><span class="val"></span></div>
+        <div class="mini"><span class="lb">Pan</span><input id="gagPan" type="range" min="-1" max="1" step="0.01"><span class="val"></span></div>
+        <div class="btn-row">
+          <button id="gagMute">Mute</button><button id="gagDup" title="Ctrl+D">Duplicate</button><button id="gagSwap" title="Pick another sound for this spot">Swap...</button>
+          <button id="gagEdit" title="Open this sound in the Sound Designer">Edit in Designer</button>
+          <button id="gagFromDesigner" title="Put the sound that's in the Sound Designer right now in this spot">Use the Designer's sound</button>
+          <button id="gagDel" class="ghost">Remove</button>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head"><span class="card-title">Save the gag</span></div>
+      <p class="muted small" style="margin-top:0">Bounces every sound into one file in your save folder (same folder and format as the Sound Designer). Ctrl+S.</p>
+      <div class="fmt-row small" style="margin-bottom:8px"><span class="fmt-desc"></span><button class="ghost small fmt-btn">Format...</button></div>
+      <div class="btn-row">
+        <button id="gagBounce" class="primary">Save as one sound</button>
+        <button id="gagToDesigner" title="Bring the whole gag into the Sound Designer as one sound, to add effects to all of it">Send to Sound Designer</button>
+      </div>
+      <p id="gagVidNote" class="muted small hidden" style="margin:8px 0 0">With a video: the soundtrack is as long as the video and starts at 0, so it lines up when you put it on the video in your editor. The video's own sound isn't in it.</p>
+      <label class="check" style="margin-top:8px" title="Keeps the timeline inside the WAV, so dropping or opening the file brings the gag back here (WAV only)"><input type="checkbox" id="gagKeep" checked> Keep the gag in the file (WAV: open it again later)</label>
+    </div>
+  </div>
+</main>
+
+<main id="boardPage" class="hidden">
+  <div class="board-bar">
+    <select id="bBank" title="Ready-made sets of 16 pads"></select>
+    <span class="mini vol"><span class="lb">Volume</span><input id="bVol" type="range" min="0" max="1" step="0.01"><span class="val"></span></span>
+    <button id="bStop" class="ghost" title="Stop every sound (Esc)">Stop all</button>
+    <div class="spacer"></div>
+    <span id="bRecInfo" class="muted small"></span>
+    <button id="bRec" class="rec" title="Record what you play (Space)">&#9679; Record</button>
+  </div>
+  <div id="bTake" class="board-take hidden">
+    <input id="bTakeName" value="Soundboard Take" maxlength="80" spellcheck="false">
+    <button id="bTakePlay">&#9654; Play take</button>
+    <button id="bTakeSave" class="primary" title="Saves the take in your save folder with the Format settings">Save as one sound</button>
+    <button id="bTakeGag" title="Every hit becomes a sound on the Gag Builder timeline, so you can fix the timing">Open in Gag Builder</button>
+    <span class="fmt-row small"><span class="fmt-desc muted"></span><button class="ghost small fmt-btn">Format...</button></span>
+  </div>
+  <div id="bPads" class="pads"></div>
+  <div class="muted small board-help">Keys 1 2 3 4 / Q W E R / A S D F / Z X C V play the pads (by key position, any keyboard layout) · &#9998; picks a pad's sound · &#8635; = a new take each hit · Space records · Esc stops everything</div>
+</main>
+
+<div id="picker" class="modal hidden"><div class="box picker-box">
+  <div class="card-head"><h2 id="pickTitle">Pick a sound</h2><div class="spacer"></div><button id="pickClose" class="icon">&times;</button></div>
+  <input id="pickSearch" class="search" placeholder="Search the Library and the presets..." spellcheck="false">
+  <div class="btn-row"><button id="pickDesigner" title="The sound that's in the Sound Designer right now">&#127899; The Designer's sound</button><button id="pickFile">&#127908; A sound file of yours...</button></div>
+  <div id="pickList" class="pick-list"></div>
+</div></div>
+
+<div id="dropHint" class="drop-hint hidden"><div>Drop a sound: a WAV saved by Comedy Sound Synth opens for editing,<br>any other WAV, MP3 or OGG gets Comedy-fied (hold Shift to add it as a layer)</div></div>
+<div id="modal" class="modal hidden"><div class="box"><div id="modalBody"></div><div id="modalButtons" class="buttons"></div></div></div>
+<div id="toast" class="toast hidden"></div>
+
+<script>window.CS_DEMO = {"types": ["Boing", "Bonk", "SlideWhistle", "Babble"], "buy": "https://ragerungames.com/comedy-sound-synth/?utm_source=webdemo", "version": "0.9.0"}; window.CS_STATIC = "static/";</script>
+<script src="static/demo.js"></script>
+<script src="static/synth.js"></script>
+<script src="static/fx.js"></script>
+<script src="static/library.js"></script>
+<script src="static/export.js"></script>
+<script src="static/app.js"></script>
+<script src="static/library-page.js"></script>
+<script src="static/gag.js"></script>
+<script src="static/board.js"></script>
+<script src="static/tour.js"></script>
+</body>
+</html>

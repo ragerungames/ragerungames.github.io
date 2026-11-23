@@ -35,7 +35,13 @@ window.RR_CATALOG = {
       blurb: "Make Shorts of your game in minutes: timeline, big text, transitions, end cards and posting texts.",
       price: 12.99, platform: "runs on your PC", img: "tool-vertical-shorts-editor.webp",
       alt: "Vertical Shorts Editor: a Short of a toppling toy tower next to the editor",
-      buy: "https://ragerun.itch.io/vertical-shorts-editor", buyLabel: "Buy on itch.io", page: "vertical-shorts-editor/" }
+      buy: "https://ragerun.itch.io/vertical-shorts-editor", buyLabel: "Buy on itch.io", page: "vertical-shorts-editor/" },
+    { slug: "comedy-sound-synth", name: "Comedy Sound Synth", track: "css",
+      blurb: "Cartoon sound effects you design yourself: boings, bonks, splats, layers, effects and 294 ready sounds.",
+      price: 14.99, platform: "runs on your PC", img: "tool-comedy-sound-synth.webp",
+      alt: "Comedy Sound Synth: the sound type list next to the title",
+      buy: "https://ragerun.itch.io/comedy-sound-synth", buyLabel: "Buy on itch.io", page: "comedy-sound-synth/",
+      live: "2099-01-01" /* hidden until launch: set to the launch date when the itch.io page is Public */ }
   ],
 
   assets: [
