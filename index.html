@@ -268,7 +268,7 @@ section { padding-block: 56px; }
 .contact > div > p { color: var(--muted); margin-top: 12px; max-width: 50ch; }
 .mailbox { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 20px; }
 .mailbox output { font-family: var(--f-mono); font-size: 15px; padding: 10px 14px; border: 1.5px solid var(--line); border-radius: 10px; background: var(--surface); user-select: all; word-break: break-all; }
-.links { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.links { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 @media (max-width: 420px) { .links { grid-template-columns: 1fr; } }
 .links a {
   display: flex; flex-direction: column; gap: 2px; padding: 14px 16px; border-radius: 12px; border: 1px solid var(--line);
@@ -485,8 +485,11 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
         </div>
       </div>
       <div class="links">
-        <a href="https://www.youtube.com/@ragerungames/videos" target="_blank" rel="noopener">YouTube<span>Trailers and devlogs</span></a>
-        <a href="https://discord.gg/kj8D8kwttZ" target="_blank" rel="noopener">Discord<span>Support and community</span></a>
+        <a href="https://www.youtube.com/@ragerungames/videos" target="_blank" rel="noopener" data-track="social-youtube">YouTube<span>Trailers and devlogs</span></a>
+        <a href="https://discord.gg/kj8D8kwttZ" target="_blank" rel="noopener" data-track="social-discord">Discord<span>Support and community</span></a>
+        <a href="https://www.tiktok.com/@ragerungames" target="_blank" rel="noopener" data-track="social-tiktok">TikTok<span>Short clips and fails</span></a>
+        <a href="https://x.com/RagerunGames" target="_blank" rel="noopener" data-track="social-x">X<span>News and launch posts</span></a>
+        <a href="https://ragerun.itch.io/" target="_blank" rel="noopener" data-track="social-itch">itch.io<span>Our tools and games</span></a>
         <a id="contact-store" href="#" target="_blank" rel="noopener sponsored">Asset Store<span>All RageRun assets</span></a>
       </div>
     </div>
