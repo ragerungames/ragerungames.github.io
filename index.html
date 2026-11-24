@@ -358,6 +358,8 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
         <div class="stats">
           <div class="stat"><b id="st-live">0</b><span>assets on the store</span></div>
           <div class="stat" id="st-demos-wrap"><b id="st-demos">0</b><span>playable web demos</span></div>
+          <div class="stat" id="st-tools-wrap"><b id="st-tools">0</b><span id="st-tools-l">creator tools</span></div>
+          <div class="stat" id="st-games-wrap"><b id="st-games">0</b><span id="st-games-l">Steam games</span></div>
           <div class="stat" hidden><b id="st-next">0</b><span>new assets in the works</span></div>
         </div>
       </div>
@@ -696,6 +698,13 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
     const TOOLS = (CATALOG.tools || []).filter((t) => !t.live || parseDay(t.live) <= T);
     window.RR_STORE = ASSETS.map((a) => "store-" + a.slug).concat(...TOOLS.map((t) => [t.track + "-buy", t.track + "-page"]));
     renderTools(TOOLS);
+    const nGames = document.querySelectorAll("#games .game").length;
+    document.getElementById("st-tools").textContent = TOOLS.length;
+    document.getElementById("st-tools-l").textContent = TOOLS.length === 1 ? "creator tool" : "creator tools";
+    document.getElementById("st-tools-wrap").hidden = TOOLS.length === 0;
+    document.getElementById("st-games").textContent = nGames;
+    document.getElementById("st-games-l").textContent = nGames === 1 ? "Steam game" : "Steam games";
+    document.getElementById("st-games-wrap").hidden = nGames === 0;
     window.RR_DEMOS = ASSETS.filter((a) => a.demo).map((a) => a.demo.split("/")[1]);
     document.getElementById("st-live").textContent = ASSETS.length;
     document.getElementById("st-demos").textContent = window.RR_DEMOS.length;
@@ -716,7 +725,7 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
             <p>${esc(t.blurb)} ${money(t.price)}${t.platform ? ", " + esc(t.platform) : ""}.</p>
             <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px">
               <a class="btn btn-primary" data-track="${t.track}-buy" href="${t.buy}" target="_blank" rel="noopener">${esc(t.buyLabel || "Buy")}<span class="vc" data-key="${t.track}-buy"></span></a>
-              ${t.page ? `<a class="btn" data-track="${t.track}-page" href="${t.page}">Tool page &rarr;</a>` : ""}
+              ${t.page ? `<a class="btn" data-track="${t.track}-page" href="${t.page}">Tool page &rarr;<span class="vc" data-key="${t.track}-page"></span></a>` : ""}
             </div>
           </div>
         </article>`).join("");
@@ -876,7 +885,7 @@ html.rr-counts .vc:not(:empty) { display: inline-block; }
     const keys = (window.RR_DEMOS || []).map((s) => "demo-" + s).concat("steam-wishlist", window.RR_STORE || []);
     if (typeof counts.home !== "number") keys.push("home");
     const vals = await Promise.all(keys.map((k) => read(BASE + "/get/" + NS + "/" + k)));
-    keys.forEach((k, i) => { if (vals[i] !== null) counts[k] = vals[i]; else if (/^(store-|steam-)/.test(k)) counts[k] = 0; });
+    keys.forEach((k, i) => { if (vals[i] !== null) counts[k] = vals[i]; else if (/^(store-|steam-)/.test(k) || /-(buy|page)$/.test(k)) counts[k] = 0; });
     renderTotal(); paint();
   }
 
