@@ -1,11 +1,11 @@
 /* RageRun Games newsletter prompt. Written by RageRun Studio (Email page). Do not edit by hand: change it in Studio and write it again.
-   One small slide-in, once per visitor: after about 20 seconds or half a page of scrolling. Closing it or signing up keeps it away for 60 days.
+   One small slide-in, about 3 seconds after the page loads (or at half a page of scrolling). It comes back on every visit until the visitor joins or presses X; then it stays away for 60 days.
    Only the home page loads this file (no web demo pages). Add ?join=1 to the address to see it again for a test.
    rr-join-prompt:MUIFAFwvjw2Vmd8nvPrB0fLmjum8EwkEAH4APypzaBgG_87Tygce4VvJRm_dcSbYzuUd94w-nvoSLzIrWXvrBGzrffLfTkGcPSbhSu16fZGWh6_r5iEtCBgk0ue5_Rpg3ITZipYDkUrt3Gf8YqQ8njWDHnrq1lquGddJTuNTP_lo9-rVROe_n-8n9ct7pnA1VcZ8bEroCwLM-DJSZw== */
 (() => {
   "use strict";
   const FORM = "https://ff45649d.sibforms.com/serve/MUIFAFwvjw2Vmd8nvPrB0fLmjum8EwkEAH4APypzaBgG_87Tygce4VvJRm_dcSbYzuUd94w-nvoSLzIrWXvrBGzrffLfTkGcPSbhSu16fZGWh6_r5iEtCBgk0ue5_Rpg3ITZipYDkUrt3Gf8YqQ8njWDHnrq1lquGddJTuNTP_lo9-rVROe_n-8n9ct7pnA1VcZ8bEroCwLM-DJSZw==";
-  const KEY = "rr-join", DAYS = 60, WAIT_MS = 20000, SCROLL_AT = 0.5;
+  const KEY = "rr-join", DAYS = 60, WAIT_MS = 3000, SCROLL_AT = 0.5;
   const force = /[?&]join=1(?:&|$)/.test(location.search);
   const now = Date.now();
   let seenThisPage = false;
@@ -61,9 +61,7 @@
 
     const form = box.querySelector("form"), msg = box.querySelector(".msg"), go = box.querySelector("button[type=submit]");
     const show = (t, ok) => { msg.textContent = t; msg.className = "msg " + (ok ? "ok" : "bad"); };
-    const close = (state) => { write(state); box.classList.remove("on"); setTimeout(() => box.remove(), 400); document.removeEventListener("keydown", onKey); };
-    const onKey = (e) => { if (e.key === "Escape") close("closed"); };
-    document.addEventListener("keydown", onKey);
+    const close = (state) => { write(state); box.classList.remove("on"); setTimeout(() => box.remove(), 400); };
     box.querySelector(".x").addEventListener("click", () => close("closed"));
 
     form.addEventListener("submit", (e) => {
