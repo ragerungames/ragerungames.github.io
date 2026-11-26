@@ -59,7 +59,7 @@
   </div>
   <div class="bar-under">
     <div class="keys">
-      <span><kbd>Backspace</kbd> back to menu</span>
+      <span><kbd>Escape</kbd> back to menu</span>
       <span><kbd>Movement</kbd></span>
       <span><kbd>E</kbd> / <kbd>Q</kbd> Climb</span>
       <span><kbd>Shift</kbd> Run</span>
@@ -78,6 +78,7 @@
       <span><kbd>Additional Controls</kbd></span>
       <span><kbd>Tab</kbd> Slow motion</span>
       <span><kbd>R</kbd> Respawn</span>
+      <span><kbd>Backspace</kbd> back to menu</span>
     </div>
     <button id="fs" type="button">Fullscreen</button>
   </div>
@@ -93,9 +94,9 @@
     errorBox.style.display = "block";
   }
   const config = {
-    dataUrl: "Build/ultimate-swing.data.unityweb?v=2611261600",
-    frameworkUrl: "Build/ultimate-swing.framework.js.unityweb?v=2611261600",
-    codeUrl: "Build/ultimate-swing.wasm.unityweb?v=2611261600",
+    dataUrl: "Build/ultimate-swing.data.unityweb?v=2611261616",
+    frameworkUrl: "Build/ultimate-swing.framework.js.unityweb?v=2611261616",
+    codeUrl: "Build/ultimate-swing.wasm.unityweb?v=2611261616",
     streamingAssetsUrl: "StreamingAssets",
     companyName: "RageRun Games",
     productName: "Ultimate Swing Controller",
@@ -103,7 +104,7 @@
     showBanner: showBanner,
   };
   const script = document.createElement("script");
-  script.src = "Build/ultimate-swing.loader.js?v=2611261600";
+  script.src = "Build/ultimate-swing.loader.js?v=2611261616";
   script.onload = () => {
     createUnityInstance(canvas, config, (p) => {
       document.getElementById("bar").style.width = (100 * p) + "%";

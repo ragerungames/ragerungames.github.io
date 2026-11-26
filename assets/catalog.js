@@ -50,6 +50,11 @@ window.RR_CATALOG = {
       tags: ["Bike Creator", "Park Builder"], price: 24.99, sale: { price: 12.49 },
       launch: null /* set to the publish date, e.g. "2026-11-26", plus id below */, cat: "ground", creator: false, id: null, img: null, demo: "demos/bmx-trick/", icon: "bike" },
 
+      { slug: "ultimate-swing", name: "Ultimate Swing Controller: Rope Swinging, Grapple & Ragdoll", short: "Ultimate Swing Controller",
+      blurb: "Physics-driven rope swinging, two-hand grappling and active ragdoll action in 3D, 2.5D and 2D.",
+      tags: ["Rope Swinging", "Active Ragdoll", "Level Creator"], price: 34.99, sale: { price: 17.49, ends: "2026-12-10" },
+      released: "2026-11-26", cat: "action", creator: true, id: 419686, img: 1, demo: "demos/ultimate-swing/", icon: "ball" },
+
     { slug: "morph-tool-studio", name: "Morph Tool Studio: Morph Any Model Into Any Other", short: "Morph Tool Studio",
       blurb: "Morph any model into any other with 10 transitions.",
       tags: ["Morph Studio", "Prop Hunt demo"], price: 29.99, sale: { price: 14.99, ends: "2026-12-02" },
