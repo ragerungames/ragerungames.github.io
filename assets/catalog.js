@@ -41,31 +41,14 @@ window.RR_CATALOG = {
       price: 14.99, platform: "runs on your PC", img: "tool-comedy-sound-synth.webp",
       alt: "Comedy Sound Synth: the sound type list next to the title",
       buy: "https://ragerun.itch.io/comedy-sound-synth", buyLabel: "Buy on itch.io", page: "comedy-sound-synth/",
-      live: "2026-11-23" /* launched 23 Nov 2026 (itch.io page Public) */ },
-    // { slug: "trailer-cutter", name: "Trailer Cutter", track: "tc",
-    //   blurb: "Cut your game trailer on the music's bars: Auto Cut, vertical Shorts, store copies and posting texts.",
-    //   price: 19.99, platform: "runs on your PC", img: "tool-trailer-cutter.webp",
-    //   alt: "Trailer Cutter: a trailer timeline cut on the music's bars",
-    //   buy: "https://ragerun.itch.io/trailer-cutter", buyLabel: "Buy on itch.io", page: "trailer-cutter/",
-    //   live: "2026-11-30" /* card appears on launch day (Mon 30 Nov 2026); needs tool-trailer-cutter.webp 1200x630 */ }
+      live: "2026-11-23" /* launched 23 Nov 2026 (itch.io page Public) */ }
   ],
 
   assets: [
-    { slug: "ultimate-swing", name: "Ultimate Swing Controller: Rope Swinging, Grapple & Ragdoll", short: "Ultimate Swing Controller",
-      blurb: "Physics rope swinging, dual grappling and ragdoll tricks.",
-      tags: ["2D / 2.5D / 3D", "Dual Grapple"], price: null,
-      launch: null, cat: "action", creator: false, id: null, img: 1,
-      local: "assets/ultimate-swing.webp", demo: demos/ultimate-swing/, demo: "demos/ultimate-swing/", icon: "ball" },
-
-    // { slug: "winter-sports", name: "Winter Sports Controller: Ski, Snowboard, Sled & Snowmobile", short: "Winter Sports Controller",
-    //   blurb: "Ski, snowboard, sled and snowmobile physics on one mountain.",
-    //   tags: ["4 rides", "Slope Builder"], price: 44.99, /* NOT PUBLISHED YET: demo only, Asset Store button goes to the publisher page. On publish day: delete released + the next line's id: null, then add  sale: { price: 22.49 }, launch: "<date>", id: 422096 */
-    //   released: "2026-11-24", cat: "ground", creator: true, id: null, img: 1, demo: "demos/winter-sports/", icon: "skate" },
-
-    // { slug: "bmx-trick", name: "BMX Trick Controller: Physics BMX, Tricks & Park Builder", short: "BMX Trick Controller",
-    //   blurb: "Physics BMX with flips, barspins, peg grinds and a Park Builder.",
-    //   tags: ["Bike Creator", "Park Builder"], price: 24.99, sale: { price: 12.49 },
-    //   launch: null /* set to the publish date, e.g. "2026-11-26", plus id below */, cat: "ground", creator: false, id: null, img: null, demo: "demos/bmx-trick/", icon: "bike" },
+    { slug: "bmx-trick", name: "BMX Trick Controller: Physics BMX, Tricks & Park Builder", short: "BMX Trick Controller",
+      blurb: "Physics BMX with flips, barspins, peg grinds and a Park Builder.",
+      tags: ["Bike Creator", "Park Builder"], price: 24.99, sale: { price: 12.49 },
+      launch: null /* set to the publish date, e.g. "2026-11-26", plus id below */, cat: "ground", creator: false, id: null, img: null, demo: "demos/bmx-trick/", icon: "bike" },
 
     { slug: "morph-tool-studio", name: "Morph Tool Studio: Morph Any Model Into Any Other", short: "Morph Tool Studio",
       blurb: "Morph any model into any other with 10 transitions.",
