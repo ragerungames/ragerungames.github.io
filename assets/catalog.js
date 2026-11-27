@@ -55,9 +55,9 @@ window.RR_CATALOG = {
       tags: ["Rope Swinging", "Active Ragdoll", "Level Creator"], price: 34.99, sale: { price: 17.49, ends: "2026-12-10" },
       released: "2026-11-26", cat: "action", creator: true, id: 419686, img: 1, demo: "demos/ultimate-swing/", icon: "ball" },
 
-    { slug: "morph-tool-studio", name: "Morph Tool Studio: Morph Any Model Into Any Other", short: "Morph Tool Studio",
-      blurb: "Morph any model into any other with 10 transitions.",
-      tags: ["Morph Studio", "Prop Hunt demo"], price: 29.99, sale: { price: 14.99, ends: "2026-12-02" },
+    { slug: "morph-tool-studio", name: "Morph Studio: Morph Any Model Into Any Other", short: "Morph Studio",
+      blurb: "Morph any model into any other, now with evolving characters.",
+      tags: ["Evolution", "Prop Hunt demo"], price: 29.99, sale: { price: 14.99, ends: "2026-12-02" },
       released: "2026-11-19", cat: "action", creator: true, id: 424006, img: 1, demo: "demos/morph-tool-studio/", icon: "ball" },
 
     { slug: "wobbly-brawl", name: "Wobbly Brawl: Party Fighting Kit", short: "Wobbly Brawl",
